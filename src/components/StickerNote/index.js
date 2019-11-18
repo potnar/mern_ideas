@@ -7,9 +7,15 @@ const StickerNote = () => {
   const category = ideasPerPerson.ideas.category;
 
   return (
-    <div className="sticker">
-      <div className="sticker__title">{user}</div>
-      <div className="sticker__content">{ideasPerPerson.ideas.category}</div>
+    <div className="stickers__row">
+      <div className="sticker">
+        <div className="sticker__title">{user}</div>
+        <div className="sticker__content">{ideasPerPerson.ideas.category}</div>
+      </div>
+      <div className="sticker">
+        <div className="sticker__title">{user}</div>
+        <div className="sticker__content">{ideasPerPerson.ideas.category}</div>
+      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import StickerNote from "./components/StickerNote";
+import StickerNote from "./components/StickyNoteList/StickerNote";
 import { ideasPerPerson } from "./mock/mock_data";
 import "./App.css";
 

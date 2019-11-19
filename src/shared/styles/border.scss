@@ -1,0 +1,12 @@
+$borders-radius-sizes: (
+  border_radius_sticker_title: 5px,
+  border_radius_sticker: 10px
+);
+
+$border_radius_sticker_title: map-get(
+  $borders-radius-sizes,
+  border_radius_sticker_title
+);
+:export {
+  borders-radius-sizes: $border_radius_sticker_title;
+}

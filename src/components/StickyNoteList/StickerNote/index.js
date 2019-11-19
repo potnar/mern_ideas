@@ -1,5 +1,5 @@
 import React from "react";
-import { ideasPerPerson } from "../../mock/mock_data";
+import { ideasPerPerson } from "../../../mock/mock_data";
 import "./StickerNote.scss";
 
 const StickerNote = () => {

@@ -1,12 +1,12 @@
 import React from "react";
-import StickerNote from "./components/StickyNoteList/StickerNote";
-import { ideasPerPerson } from "./mock/mock_data";
+import StickyNoteList from "./components/StickyNoteList";
+import { noteList } from "./mock/notes";
 import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <StickerNote />
+      <StickyNoteList noteList={noteList} />
     </div>
   );
 }

@@ -1,4 +1,4 @@
 # MERN IDEAS
 ## Manage ideas
 
-![]("ui.png")
+![](assets/ui.png)

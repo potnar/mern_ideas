@@ -1,7 +1,7 @@
-import React from 'react';
-import StickyNote from './StickyNote';
-import { uid } from 'react-uid';
-import './StickyNoteList.scss';
+import React from "react";
+import StickyNote from "./StickyNote";
+import { uid } from "react-uid";
+import "./StickyNoteList.scss";
 
 class StickyNoteList extends React.Component {
   /*
@@ -20,11 +20,10 @@ class StickyNoteList extends React.Component {
   */
 
   constructor(props) {
-    super(props) // if we use constructor we must include "super(props)" to do
+    super(props); // if we use constructor we must include "super(props)" to do
     // anything on props. otherwise, the context will be empty.
-    this.state = { categories: props.categories }
+    this.state = { categories: props.categories };
   }
-
 
   render() {
     const { noteList } = this.props;
@@ -36,14 +35,13 @@ class StickyNoteList extends React.Component {
 
     return (
       <div className="sticker-list">
-      {/*
+        {/*
         We need key as we're using map function to render StickerNotes
         Uid is a cool function for getting Unique ID's, hence I've added
         the package
       */}
-        {noteList && noteList.map(note => (
-            <StickyNote key={uid(note)} note={note} />
-        ))}
+        {noteList &&
+          noteList.map(note => <StickyNote key={uid(note)} note={note} />)}
       </div>
     );
   }

@@ -1,0 +1,29 @@
+@import "../../shared/styles/layout.scss";
+@import "../../shared/styles/colors.scss";
+
+$navbar-height: 60px;
+
+nav {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: $navbar-height;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background-color: $oil_dark_nav;
+  .menu-item {
+    cursor: pointer;
+    &:last-child {
+      margin-right: $nav-margin;
+    }
+    &:first-child {
+      margin-left: $nav-margin;
+    }
+  }
+}
+
+:export {
+  navHeight: $navbar-height;
+}

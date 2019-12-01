@@ -1,31 +1,29 @@
-@import "../../../shared/styles/colors";
-@import "../../../shared/styles/border";
+// @import "../../../shared/styles/colors";
+// @import "../../../shared/styles/border";
 
-body {
-  background: $mustard;
-}
-.stickers__row {
-  padding: 10px 20px;
-  display: flex;
-  flex-direction: row;
-  .sticker {
-    margin-left: 10px;
-    background: $oil-dark;
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px black;
-    .sticker__title {
-      padding: 4px 40px;
-      margin: 7px 10px 0px;
-      text-align: center;
-      border-radius: 5px;
-      background: $oil_light;
-    }
-    .sticker__content {
-      width: 100px;
-      height: 100px;
-    }
-  }
-}
+// .stickers__row {
+//   padding: 10px 20px;
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-around;
+//   .sticker {
+//     margin-left: 10px;
+//     background: $oil-dark;
+//     display: flex;
+//     flex-direction: column;
+//     padding: 5px;
+//     // border-radius: 10px;
+//     // box-shadow: 0px 0px 0px black;
+//     .sticker__title {
+//       padding: 4px 40px;
+//       margin: 7px 10px 0px;
+//       text-align: center;
+//       border-radius: 5px;
+//       background: $mustard;
+//     }
+//     // .sticker__content {
+//     //   // width: 100px;
+//     //   // height: 100px;
+//     // }
+//   }
+// }

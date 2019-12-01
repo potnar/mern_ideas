@@ -1,5 +1,5 @@
 import React from "react";
-import StickyNote from "./StickyNote";
+import StickyNote from "./StickyNote/IdeasList";
 import { uid } from "react-uid";
 import "./StickyNoteList.scss";
 
@@ -41,7 +41,9 @@ class StickyNoteList extends React.Component {
         the package
       */}
         {noteList &&
-          noteList.map(note => <StickyNote key={uid(note)} note={note} />)}
+          noteList.map((note, index) => (
+            <StickyNote key={uid(index)} note={note} />
+          ))}
       </div>
     );
   }

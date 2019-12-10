@@ -1,5 +1,5 @@
 import React from "react";
-import StickyNote from "./StickyNote/IdeasList";
+import StickyNote from "./StickyNote";
 import { uid } from "react-uid";
 import "./StickyNoteList.scss";
 

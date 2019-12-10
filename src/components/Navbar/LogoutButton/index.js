@@ -1,7 +1,7 @@
 import React from "react";
-import "./ButtonLogout.scss";
+import "./LogoutButton.scss";
 
-const ButtonLogout = () => {
+const LogoutButton = () => {
   return (
     <button onClick={() => console.log("logout")} className="btn--logout">
       Logout
@@ -9,4 +9,4 @@ const ButtonLogout = () => {
   );
 };
 
-export default ButtonLogout;
+export default LogoutButton;

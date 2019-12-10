@@ -4,6 +4,7 @@
 $navbar-height: 60px;
 
 nav {
+  z-index: 1000;
   position: fixed;
   left: 0;
   top: 0;
@@ -20,6 +21,10 @@ nav {
     }
     &:first-child {
       margin-left: $nav-margin;
+    }
+    .nav__logo {
+      width: 100%;
+      height: $navbar-height;
     }
   }
 }

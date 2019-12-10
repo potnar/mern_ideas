@@ -19,7 +19,7 @@ const MIKOLAJ_NOTE = {
 
 const FILIP_NOTE = {
   user: "Filip",
-  categories: ["Czapki"],
+  categories: ["Czapki", "siema"],
   ideas: [
     {
       category: "Czapki",

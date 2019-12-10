@@ -1,0 +1,40 @@
+@import "../../../../shared/styles/colors";
+$input_height: 40px;
+.sticky-note__input {
+  height: $input_height;
+  width: 100%;
+  .btn-arrow {
+    height: 100%;
+    background: $mustard;
+    float: left;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border: solid $mustard;
+    box-sizing: border-box;
+    width: 15%;
+    .arrow__wrapper {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .arrow {
+        border: solid $oil_light;
+        border-width: 0 5px 5px 0;
+        display: inline-block;
+        padding: 3px;
+        transform: rotate(-45deg);
+        -webkit-transform: rotate(-45deg);
+      }
+    }
+  }
+  .field-category {
+    height: 100%;
+    width: 85%;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 5px 2px;
+    border: solid $mustard;
+    box-sizing: border-box;
+    float: left;
+  }
+}

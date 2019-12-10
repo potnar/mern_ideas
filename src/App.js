@@ -1,10 +1,10 @@
 import React from "react";
 import { Component } from "react";
-import { render } from "react-dom";
 import StickyNoteList from "components/StickyNoteList";
 import { noteList } from "mock/notes";
 import "./App.scss";
 import Navbar from "./components/Navbar";
+
 // import $ from "jquery";
 class App extends Component {
   //lepiej tego nie używać, ale w ten sposób używa się jQuery w react

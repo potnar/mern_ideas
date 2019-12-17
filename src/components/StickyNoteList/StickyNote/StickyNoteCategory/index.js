@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+// import ideas from "../../../src/api/ideas";
 
 const StickyNoteCategory = ({ category }) => {
   const [arrowRotated, rotateArrow] = useState(false);

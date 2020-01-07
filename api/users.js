@@ -4,23 +4,27 @@ const User = require("../schemas/User");
 function get(req, res) {
   const { query } = req;
   if (query.id) {
-    User.findById(query.id, (err, user) => {
-      if (err) {
-        console.error(err);
-        errors.user = "couldn't get users list";
-        res.status(404).json({ errors });
-      }
-      res.json(user);
-    });
+    User.findById(query.id)
+      .populate("categories")
+      .exec((err, user) => {
+        if (err) {
+          console.error(err);
+          errors.user = "couldn't get users list";
+          res.status(404).json({ errors });
+        }
+        res.json(user);
+      });
   } else {
-    User.find((err, user) => {
-      if (err) {
-        console.error(err);
-        errors.user = "couldn't get users list";
-        res.status(404).json({ errors });
-      }
-      res.json(user);
-    });
+    User.find()
+      .populate("categories")
+      .exec((err, user) => {
+        if (err) {
+          console.error(err);
+          errors.user = "couldn't get users list";
+          res.status(404).json({ errors });
+        }
+        res.json(user);
+      });
   }
 }
 function put(req, res) {

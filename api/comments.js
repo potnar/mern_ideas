@@ -56,19 +56,19 @@ function put(req, res) {
   });
 }
 
-// function del(req, res) {
-//   let errors = {};
+function del(req, res) {
+  let errors = {};
 
-//   const { id } = req.body;
+  const { id } = req.body;
 
-//   Comment.deleteOne({ _id: id }, (err, result) => {
-//     if (err) {
-//       console.error(err);
-//       errors.comment = "couldn't delete comment";
-//       res.status(404).json({ errors });
-//     }
-//     res.json(result);
-//   });
-// }
+  Comment.deleteOne({ _id: id }, (err, result) => {
+    if (err) {
+      console.error(err);
+      errors.comment = "couldn't delete comment";
+      res.status(404).json({ errors });
+    }
+    res.json(result);
+  });
+}
 
-module.exports = { put, get, post };
+module.exports = { put, get, post, del };

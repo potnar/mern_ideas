@@ -4,9 +4,12 @@ dotenv.config();
 const { PORT } = process.env;
 // importowanie biblioteki express w stylu es5
 const express = require("express");
+const session = require("express-session");
+const path = require("path");
+require("./config/passport");
 
 const bodyParser = require("body-parser");
-//importowanie cors. uprzednio należy zainstalować cors npm i --save cors
+//importowanie cors. uprzednio należy zainstalować cors npm i --save cors. Jest po to aby wysyłać zapytania do obcych domen
 const cors = require("cors");
 
 const users = require("./api/users");
@@ -32,9 +35,16 @@ const corsOptions = {
 app.use(cors());
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
-
 // parse application/json
 app.use(bodyParser.json());
+const loggerMiddleware = (req, res, next) => {
+  console.log(req.protocol + "://" + req.get("host") + req.originalUrl);
+  next();
+};
+app.use(loggerMiddleware);
+// middleware służące do mapowania zapytań na pliki na serwerze
+// (dzięki temu możemy pobrać np. zawartość folderu /build/static z poziomu strony internetowej)
+app.use(express.static(path.join(__dirname, "build")));
 
 // inicjujemy router
 const api = express.Router();
@@ -48,6 +58,7 @@ mongoose.connect("mongodb://localhost/ideas", {
   useFindAndModify: false
 });
 
+/*  */
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function() {
@@ -73,6 +84,20 @@ api.delete("/comments", comments.del);
 api.get("/users", users.get);
 api.put("/users", users.put);
 //od ścieżki api serwer ma rozpoznawać endpointy tak jak są zdefiniowane w routerze
+
+app.use(loggerMiddleware);
 app.use("/api", api);
+
+// ^
+// api.get("/ideas") => app.get("/api/ideas")
+
+// tak samo jak w routerze "api" powyżej, definiujemy co serwer ma zwracać w odpowiedzi
+// na zapytanie typu "GET". "*" oznacza, że dla każdej możliwej ścieżki ma zwracać naszą stronę.
+// ponieważ nasz app.get znajduje się poniżej api, działa to podobnie jak w React routerze,
+// tzn. najpierw są rozwiązywane ścieżki opisane wcześniej, a dopiero na końcu ta tutaj
+// (czyli de facto wszystkie inne niż powyżej)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/build/index.html"));
+});
 
 app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));

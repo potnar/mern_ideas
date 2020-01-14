@@ -7,6 +7,7 @@ const express = require("express");
 const session = require("express-session");
 const path = require("path");
 require("./config/passport");
+app.use(require("./routes"));
 
 const bodyParser = require("body-parser");
 //importowanie cors. uprzednio należy zainstalować cors npm i --save cors. Jest po to aby wysyłać zapytania do obcych domen

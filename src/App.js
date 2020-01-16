@@ -6,9 +6,12 @@ import "./App.scss";
 import Navbar from "./components/Navbar";
 import { connect } from "react-redux";
 import userActions from "./store/actions/userActions";
+import AuthForm from "components/AuthForm";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function getMockUser() {
-  return axios.get(`users?id=5df92b3b73fa4f5fc061e24a`);
+  const MOCK_USER_ID = "5e1f5148433a060e84a6dcb5";
+  return axios.get(`users?id=${MOCK_USER_ID}`);
 }
 
 // import $ from "jquery";
@@ -30,11 +33,16 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <div className="header-spacer"></div>
-        <Navbar />
-        <Home />
-      </div>
+      <Router>
+        <div className="App">
+          <div className="header-spacer"></div>
+          <Navbar />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/login" component={AuthForm} />
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }

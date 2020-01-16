@@ -1,28 +1,78 @@
-const jwt = require("express-jwt");
+const passport = require("passport");
+const User = require("../schemas/User");
 
-const getTokenFromHeaders = req => {
-  const {
-    headers: { authorization }
-  } = req;
+//POST new user route (optional, everyone has access)
+function register(req, res, next) {
+  const { username, password, name, surname } = req.body;
 
-  if (authorization && authorization.split(" ")[0] === "Token") {
-    return authorization.split(" ")[1];
+  try {
+    const finalUser = new User({ username, password, name, surname });
+    finalUser.setPassword(password);
+
+    return finalUser
+      .save()
+      .then(() => res.json({ user: finalUser.toAuthJSON() }))
+      .catch(err => {
+        if (err) {
+          return res.status(422).json({
+            errors: {
+              user: err
+            }
+          });
+        }
+      });
+  } catch (err) {
+    if (err) {
+      return res.status(422).json({
+        errors: {
+          user: err
+        }
+      });
+    }
   }
-  return null;
-};
+}
 
-const auth = {
-  required: jwt({
-    secret: process.env.AUTH_SECRET,
-    userProperty: "payload",
-    getToken: getTokenFromHeaders
-  }),
-  optional: jwt({
-    secret: process.env.AUTH_SECRET,
-    userProperty: "payload",
-    getToken: getTokenFromHeaders,
-    credentialsRequired: false
-  })
-};
+//POST login route (optional, everyone has access)
+function login(req, res, next) {
+  const { username, password } = req.body;
 
-module.exports = auth;
+  if (!username) {
+    return res.status(422).json({
+      errors: {
+        username: "is required"
+      }
+    });
+  }
+
+  if (!password) {
+    return res.status(422).json({
+      errors: {
+        password: "is required"
+      }
+    });
+  }
+
+  return passport.authenticate(
+    "local",
+    { session: false },
+    (err, passportUser, info) => {
+      if (err) {
+        return next(err);
+      }
+
+      if (passportUser) {
+        const user = passportUser;
+        user.token = passportUser.generateJWT();
+
+        return res.json({ user: user.toAuthJSON() });
+      }
+
+      return res.status(400).json(info);
+    }
+  )(req, res, next);
+}
+
+//change password za pomocą maila
+//function changePassword()
+
+module.exports = { register, login };

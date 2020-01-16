@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const User = require("../schemas/User");
 
 function get(req, res) {
@@ -8,8 +7,7 @@ function get(req, res) {
       .populate("categories")
       .exec((err, user) => {
         if (err) {
-          console.error(err);
-          errors.user = "couldn't get users list";
+          errors.user = err;
           res.status(404).json({ errors });
         }
         res.json(user);
@@ -19,8 +17,7 @@ function get(req, res) {
       .populate("categories")
       .exec((err, user) => {
         if (err) {
-          console.error(err);
-          errors.user = "couldn't get users list";
+          errors.user = err;
           res.status(404).json({ errors });
         }
         res.json(user);
@@ -35,12 +32,25 @@ function put(req, res) {
   const newUser = new User({ username, name, surname });
   newUser.save((err, user) => {
     if (err) {
-      console.error(err);
-      errors.user = "couldn't create user";
+      errors.user = err;
       res.status(404).json({ errors });
     }
     res.json(user);
   });
 }
 
-module.exports = { get, put };
+function del(req, res) {
+  let errors = {};
+
+  const { id } = req.body;
+
+  User.deleteOne({ _id: id }, (err, result) => {
+    if (err) {
+      errors.user = err;
+      res.status(404).json({ errors });
+    }
+    res.json(result);
+  });
+}
+
+module.exports = { get, put, del };

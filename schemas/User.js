@@ -31,6 +31,8 @@ const usersSchema = new mongoose.Schema(
   }
 );
 //hashowanie przy rejestracji
+//dodajemy do usersSchema (jest powyżej) nową metode za pomocą methods (mongoosowy obiektem do nadawania metod instancji modelu)
+//nazywamy te metode setPassword
 usersSchema.methods.setPassword = function(password) {
   this.salt = crypto.randomBytes(16).toString("hex");
   this.hash = crypto
@@ -44,7 +46,8 @@ usersSchema.methods.validatePassword = function(password) {
     .toString("hex");
   return this.hash === hash;
 };
-//zapisywanie tokena użytkownika w procesie serwera
+//zapisywanie tokena użytkownika w procesie serwera.
+//generowanie tokenów
 usersSchema.methods.generateJWT = function() {
   const today = new Date();
   const expirationDate = new Date(today);
@@ -56,7 +59,7 @@ usersSchema.methods.generateJWT = function() {
       id: this._id,
       exp: parseInt(expirationDate.getTime() / 1000, 10)
     },
-    //klucz do rozszyfrowania tokenów
+    //klucz do autoryzowania tokenów
     process.env.AUTH_SECRET
   );
 };

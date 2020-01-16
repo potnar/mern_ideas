@@ -5,8 +5,8 @@ const User = require("../schemas/User");
 passport.use(
   new LocalStrategy(
     {
-      usernameField: "user[username]",
-      passwordField: "user[password]"
+      usernameField: "username",
+      passwordField: "password"
     },
     (username, password, done) => {
       User.findOne({ username })

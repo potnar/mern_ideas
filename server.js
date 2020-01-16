@@ -4,16 +4,17 @@ dotenv.config();
 const { PORT } = process.env;
 // importowanie biblioteki express w stylu es5
 const express = require("express");
+const auth = require("./auth");
 const session = require("express-session");
 const path = require("path");
 require("./config/passport");
-app.use(require("./routes"));
 
 const bodyParser = require("body-parser");
 //importowanie cors. uprzednio należy zainstalować cors npm i --save cors. Jest po to aby wysyłać zapytania do obcych domen
 const cors = require("cors");
 
 const users = require("./api/users");
+const authApi = require("./api/auth");
 const categories = require("./api/categories");
 const ideas = require("./api/ideas");
 const comments = require("./api/comments");
@@ -21,19 +22,19 @@ const comments = require("./api/comments");
 //inicjujemy serwer
 const app = express();
 
-const whitelist = ["http://localhost", "http://example2.com"];
-const corsOptions = {
-  origin: function(origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  }
-};
+// const whitelist = ["http://localhost"];
+// const corsOptions = {
+//   origin: function(origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   }
+// };
 
 //użycie biblioteki cors aby pozwolić na zapytania pomiędzy różnymi hostami
-app.use(cors());
+app.use(cors); //(corsOptions));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
@@ -43,6 +44,14 @@ const loggerMiddleware = (req, res, next) => {
   next();
 };
 app.use(loggerMiddleware);
+// app.use(
+//   session({
+//     secret: process.env.AUTH_SECRET,
+//     cookie: { maxAge: 60000 },
+//     resave: false,
+//     saveUninitialized: false
+//   })
+// );
 // middleware służące do mapowania zapytań na pliki na serwerze
 // (dzięki temu możemy pobrać np. zawartość folderu /build/static z poziomu strony internetowej)
 app.use(express.static(path.join(__dirname, "build")));
@@ -66,7 +75,12 @@ db.once("open", function() {
   console.log("connected to the database");
 });
 
+const authRouter = express.Router();
+
 //definiujemy endpointy dla routera
+authRouter.post("/register", auth.optional, authApi.register);
+authRouter.post("/login", auth.optional, authApi.login);
+
 api.get("/categories", categories.get);
 api.post("/categories", categories.post);
 api.put("/categories", categories.put);
@@ -84,9 +98,11 @@ api.delete("/comments", comments.del);
 
 api.get("/users", users.get);
 api.put("/users", users.put);
+api.delete("/users", users.del);
 //od ścieżki api serwer ma rozpoznawać endpointy tak jak są zdefiniowane w routerze
 
 app.use(loggerMiddleware);
+api.use("/auth", authRouter);
 app.use("/api", api);
 
 // ^
@@ -97,8 +113,12 @@ app.use("/api", api);
 // ponieważ nasz app.get znajduje się poniżej api, działa to podobnie jak w React routerze,
 // tzn. najpierw są rozwiązywane ścieżki opisane wcześniej, a dopiero na końcu ta tutaj
 // (czyli de facto wszystkie inne niż powyżej)
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/build/index.html"));
 });
+// app.get("/login", (req, res) => {
+//   res.sendFile(path.join(__dirname + "/build/index.html"));
+// });
 
 app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));

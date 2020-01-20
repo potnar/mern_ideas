@@ -22,19 +22,22 @@ const comments = require("./api/comments");
 //inicjujemy serwer
 const app = express();
 
-// const whitelist = ["http://localhost"];
-// const corsOptions = {
-//   origin: function(origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   }
-// };
+const whitelist = [
+  `http://localhost:${process.env.PORT}`,
+  `http://localhost:3000`
+];
+const corsOptions = {
+  origin: function(origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  }
+};
 
-//użycie biblioteki cors aby pozwolić na zapytania pomiędzy różnymi hostami
-app.use(cors); //(corsOptions));
+// //użycie biblioteki cors aby pozwolić na zapytania pomiędzy różnymi hostami
+app.use(cors(corsOptions)); //(corsOptions));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
@@ -44,6 +47,7 @@ const loggerMiddleware = (req, res, next) => {
   next();
 };
 app.use(loggerMiddleware);
+app.use(express.static(path.join(__dirname, "build")));
 // app.use(
 //   session({
 //     secret: process.env.AUTH_SECRET,
@@ -54,7 +58,7 @@ app.use(loggerMiddleware);
 // );
 // middleware służące do mapowania zapytań na pliki na serwerze
 // (dzięki temu możemy pobrać np. zawartość folderu /build/static z poziomu strony internetowej)
-app.use(express.static(path.join(__dirname, "build")));
+// app.use(express.static(path.join(__dirname, "build")));
 
 // inicjujemy router
 const api = express.Router();
@@ -99,7 +103,7 @@ api.delete("/comments", comments.del);
 api.get("/users", users.get);
 api.put("/users", users.put);
 api.delete("/users", users.del);
-//od ścieżki api serwer ma rozpoznawać endpointy tak jak są zdefiniowane w routerze
+// od ścieżki api serwer ma rozpoznawać endpointy tak jak są zdefiniowane w routerze
 
 app.use(loggerMiddleware);
 api.use("/auth", authRouter);
@@ -117,8 +121,5 @@ app.use("/api", api);
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/build/index.html"));
 });
-// app.get("/login", (req, res) => {
-//   res.sendFile(path.join(__dirname + "/build/index.html"));
-// });
 
 app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));

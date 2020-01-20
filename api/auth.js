@@ -39,7 +39,7 @@ function login(req, res, next) {
   if (!username) {
     return res.status(422).json({
       errors: {
-        username: "is required"
+        username: err
       }
     });
   }
@@ -47,7 +47,7 @@ function login(req, res, next) {
   if (!password) {
     return res.status(422).json({
       errors: {
-        password: "is required"
+        password: err
       }
     });
   }

@@ -18,7 +18,7 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: rotate(0deg) translate(-50%, -50%);
       // transition: transform 1s ease-in;
     }
 
@@ -92,6 +92,7 @@
     display: block;
     background-color: white;
     position: absolute;
+    transform: rotate(0deg) translate(-50%, -50%);
     // transform: translate(-50%, -50%);
 
     // transition: transform 1s ease-in;
@@ -122,27 +123,25 @@
 }
 @keyframes rotateBefore {
   from {
-    transform: rotate(0deg);
-    transform-origin: 50%, 50%;
+    transform: rotate(0deg) translate(-50%, -50%);
     top: 50%;
     left: 50%;
   }
   to {
-    transform: rotate(-45deg);
-    transform-origin: 50%, 50%;
-    top: 20%;
-    left: 50%;
+    transform: rotate(-45deg) translate(-50%, -50%);
+    top: 30%;
+    left: 64%;
   }
 }
 @keyframes rotateAfter {
   from {
-    transform: rotate(0deg);
+    transform: rotate(0deg) translate(-50%, -50%);
     top: 50%;
     left: 50%;
   }
   to {
-    top: 60%;
-    left: 33%;
-    transform: rotate(-45deg);
+    top: 46.5%;
+    left: 47%;
+    transform: rotate(-45deg) translate(-50%, -50%);
   }
 }

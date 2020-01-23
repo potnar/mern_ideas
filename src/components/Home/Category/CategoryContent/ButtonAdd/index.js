@@ -1,17 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 import "./ButtonAdd.scss";
 
-const ButtonAdd = () => {
-  const [arrowRotated, rotateArrow] = useState(false);
-  const handleClick = () => {
-    rotateArrow(!arrowRotated);
-  };
-  return (
-    <div className="btn">
-      <button className="plus-button" onClick={handleClick}></button>
-      <input className="add-idea"></input>
-    </div>
-  );
-};
+export default class ButtonAdd extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      rotated: false
+    };
+  }
+  onRotate() {
+    this.setState({
+      rotated: true
+    });
+  }
 
-export default ButtonAdd;
+  render() {
+    return (
+      <div className="btn">
+        <button
+          className={this.state.rotated ? "rotated" : "plus-button"}
+          onClick={this.onRotate.bind(this)}
+        ></button>
+        <input className="add-idea"></input>
+      </div>
+    );
+  }
+}

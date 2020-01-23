@@ -1,5 +1,5 @@
 .category-list {
-  margin-left: 10px;
-  overflow-y: auto;
-  height: 100;
+  height: calc(100vh - 60px);
+  padding-left: 10px;
+  overflow: auto;
 }

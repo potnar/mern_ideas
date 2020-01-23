@@ -1,4 +1,5 @@
 @import "./shared/styles/colors";
+@import "./shared/styles/fonts";
 @import "./components/Navbar/Navbar.scss";
 
 body {
@@ -6,4 +7,5 @@ body {
   .header-spacer {
     min-height: $navbar-height;
   }
+  font-size: $main;
 }

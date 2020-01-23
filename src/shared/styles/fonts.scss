@@ -1,3 +1,7 @@
 $font-sizes: (
-  main: 12px
+  main: 16px
 );
+$main: map-get($font-sizes, main);
+:export {
+  mainFont: $main;
+}

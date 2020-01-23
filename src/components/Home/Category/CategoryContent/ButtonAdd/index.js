@@ -17,11 +17,14 @@ export default class ButtonAdd extends React.Component {
   render() {
     return (
       <div className="btn">
-        <button
+        <div
           className={this.state.rotated ? "rotated" : "plus-button"}
           onClick={this.onRotate.bind(this)}
-        ></button>
-        <input className="add-idea"></input>
+        ></div>
+        <input
+          className={this.state.rotated ? "add-idea" : "idea"}
+          placeholder="Add idea..."
+        ></input>
       </div>
     );
   }

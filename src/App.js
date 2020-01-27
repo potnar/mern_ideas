@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import userActions from "./store/actions/userActions";
 import AuthForm from "components/AuthForm";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import withAuth from "components/shared/hoc/withAuth";
 
 function getMockUser() {
   const MOCK_USER_ID = "5e1f5148433a060e84a6dcb5";
@@ -38,7 +39,7 @@ class App extends Component {
           <div className="header-spacer"></div>
           <Navbar />
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={withAuth(Home)} />
             <Route path="/login" component={AuthForm} />
           </Switch>
         </div>

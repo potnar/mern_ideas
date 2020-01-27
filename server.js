@@ -12,6 +12,7 @@ require("./config/passport");
 const bodyParser = require("body-parser");
 //importowanie cors. uprzednio należy zainstalować cors npm i --save cors. Jest po to aby wysyłać zapytania do obcych domen
 const cors = require("cors");
+const passport = require("passport");
 
 const users = require("./api/users");
 const authApi = require("./api/auth");
@@ -48,20 +49,26 @@ const loggerMiddleware = (req, res, next) => {
 };
 app.use(loggerMiddleware);
 app.use(express.static(path.join(__dirname, "build")));
+
+// Express Session
 // app.use(
 //   session({
 //     secret: process.env.AUTH_SECRET,
-//     cookie: { maxAge: 60000 },
-//     resave: false,
-//     saveUninitialized: false
+//     cookie: { maxAge: 24 * 60 * 60 * 1000 },
+//     resave: true,
+//     saveUninitialized: true
 //   })
 // );
+
+// Passport init
+// app.use(passport.initialize());
+// app.use(passport.session());
+
 // middleware służące do mapowania zapytań na pliki na serwerze
 // (dzięki temu możemy pobrać np. zawartość folderu /build/static z poziomu strony internetowej)
 // app.use(express.static(path.join(__dirname, "build")));
 
 // inicjujemy router
-const api = express.Router();
 
 //database section
 const mongoose = require("mongoose");
@@ -80,34 +87,39 @@ db.once("open", function() {
 });
 
 const authRouter = express.Router();
+const apiRouter = express.Router();
 
 //definiujemy endpointy dla routera
 authRouter.post("/register", auth.optional, authApi.register);
 authRouter.post("/login", auth.optional, authApi.login);
+authRouter.post("/", auth.optional, authApi.auth);
+// authRouter.post("/login", passport.authenticate("local"), function(req, res) {
+//   res.send(req.user);
+// });
 
-api.get("/categories", categories.get);
-api.post("/categories", categories.post);
-api.put("/categories", categories.put);
-api.delete("/categories", categories.del);
+apiRouter.get("/categories", auth.required, categories.get);
+apiRouter.post("/categories", auth.required, categories.post);
+apiRouter.put("/categories", auth.required, categories.put);
+apiRouter.delete("/categories", auth.required, categories.del);
 
-api.get("/ideas", ideas.get);
-api.post("/ideas", ideas.post);
-api.put("/ideas", ideas.put);
-api.delete("/ideas", ideas.del);
+apiRouter.get("/ideas", auth.required, ideas.get);
+apiRouter.post("/ideas", auth.required, ideas.post);
+apiRouter.put("/ideas", auth.required, ideas.put);
+apiRouter.delete("/ideas", auth.required, ideas.del);
 
-api.get("/comments", comments.get);
-api.post("/comments", comments.post);
-api.put("/comments", comments.put);
-api.delete("/comments", comments.del);
+apiRouter.get("/comments", auth.required, comments.get);
+apiRouter.post("/comments", auth.required, comments.post);
+apiRouter.put("/comments", auth.required, comments.put);
+apiRouter.delete("/comments", auth.required, comments.del);
 
-api.get("/users", users.get);
-api.put("/users", users.put);
-api.delete("/users", users.del);
-// od ścieżki api serwer ma rozpoznawać endpointy tak jak są zdefiniowane w routerze
+apiRouter.get("/users", auth.required, users.get);
+apiRouter.put("/users", auth.required, users.put);
+apiRouter.delete("/users", auth.required, users.del);
+// od ścieżki apiRouter serwer ma rozpoznawać endpointy tak jak są zdefiniowane w routerze
 
 app.use(loggerMiddleware);
-api.use("/auth", authRouter);
-app.use("/api", api);
+apiRouter.use("/auth", authRouter);
+app.use("/api", apiRouter);
 
 // ^
 // api.get("/ideas") => app.get("/api/ideas")

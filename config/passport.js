@@ -23,3 +23,15 @@ passport.use(
     }
   )
 );
+
+// middleware dodaje usera do req.user po pomyslnym zalogowaniu,
+// deserializeUser pozwala go wyciągnąć
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.getUserById(id, function(err, user) {
+    done(err, user);
+  });
+});

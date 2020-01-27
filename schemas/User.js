@@ -68,8 +68,16 @@ usersSchema.methods.toAuthJSON = function() {
   return {
     _id: this._id,
     username: this.username,
+    name: this.name,
+    surname: this.surname,
+    categories: this.categories,
     token: this.generateJWT()
   };
 };
 
+function validateJWT(token, cb) {
+  return jwt.verify(token, process.env.AUTH_SECRET, cb);
+}
+
 module.exports = mongoose.model("User", usersSchema);
+module.exports.validateJWT = validateJWT;

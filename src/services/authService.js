@@ -8,4 +8,9 @@ const register = ({ username, password, name, surname }) => {
   return axios.post("auth/login", { username, password, name, surname });
 };
 
-export default { login, register };
+const auth = ({ token }) => {
+  console.log(token);
+  return axios.post("auth", { token });
+};
+
+export default { login, register, auth };

@@ -12,10 +12,22 @@ class AuthForm extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    authService.login({
-      username: this.state.username,
-      password: this.state.password
-    });
+    authService
+      .login({
+        username: this.state.username,
+        password: this.state.password
+      })
+      .then(res => {
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            user: {
+              _id: res.data.user._id,
+              token: res.data.user.token
+            }
+          })
+        );
+      });
   };
   render() {
     return (

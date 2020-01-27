@@ -8,18 +8,18 @@ export default class ButtonAdd extends React.Component {
       rotated: false
     };
   }
-  onRotate() {
+  onRotate = () => {
     this.setState({
       rotated: true
     });
-  }
+  };
 
   render() {
     return (
       <div className="btn">
         <div
           className={this.state.rotated ? "rotated" : "plus-button"}
-          onClick={this.onRotate.bind(this)}
+          onClick={this.onRotate}
         ></div>
         <input
           className={this.state.rotated ? "add-idea" : "idea"}

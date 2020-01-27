@@ -72,7 +72,16 @@ function login(req, res, next) {
   )(req, res, next);
 }
 
-//change password za pomocą maila
-//function changePassword()
+function auth(req, res) {
+  const { token } = req.body;
+  console.log("token = ", token, "\n\n\n");
+  User.validateJWT(token, (err, decoded) => {
+    if (err) {
+      res.status(400).json({ success: false, error: err });
+    } else {
+      res.json({ success: true, token });
+    }
+  });
+}
 
-module.exports = { register, login };
+module.exports = { register, login, auth };

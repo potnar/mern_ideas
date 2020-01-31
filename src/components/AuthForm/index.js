@@ -1,15 +1,27 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import "./AuthForm.scss";
 import authService from "services/authService";
+import { withRouter } from "react-router";
+import userActions from "store/actions/userActions";
 
 class AuthForm extends Component {
   state = { username: "", password: "" };
+
+  //odpala się gdy component zamontuje się na DOM'ie (lifeCycle method)
+  componentDidMount() {
+    localStorage.removeItem("user");
+    this.props.logout();
+  }
+
   handleUsernameChange = e => {
     this.setState({ username: e.target.value });
   };
+
   handlePasswordChange = e => {
     this.setState({ password: e.target.value });
   };
+
   handleSubmit = e => {
     e.preventDefault();
     authService
@@ -18,6 +30,7 @@ class AuthForm extends Component {
         password: this.state.password
       })
       .then(res => {
+        console.log(res);
         localStorage.setItem(
           "user",
           JSON.stringify({
@@ -27,14 +40,19 @@ class AuthForm extends Component {
             }
           })
         );
+        this.props.history.push("/");
+      })
+      .catch(error => {
+        console.error(error);
       });
   };
+
   render() {
     return (
       <form
         className="login-form"
         onSubmit={this.handleSubmit}
-        onKeyDown={e => e.keyCode === 13 && this.handleSubmit()}
+        onKeyDown={e => e.keyCode === 13 && this.handleSubmit(e)}
       >
         <input
           placeholder="Username"
@@ -53,4 +71,6 @@ class AuthForm extends Component {
   }
 }
 
-export default AuthForm;
+const mapDispatchToProps = { logout: userActions.logout };
+
+export default connect(null, mapDispatchToProps)(withRouter(AuthForm));

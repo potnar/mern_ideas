@@ -1,5 +1,11 @@
+import userConstans from "store/constants/userConstants";
+
 const login = user => {
-  return { type: "LOGIN", user };
+  return { type: userConstans.LOGIN, user };
 };
 
-export default { login };
+const logout = () => {
+  return { type: userConstans.LOGOUT };
+};
+
+export default { login, logout };

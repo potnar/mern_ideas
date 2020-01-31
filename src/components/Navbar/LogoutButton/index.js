@@ -1,12 +1,13 @@
 import React from "react";
 import "./LogoutButton.scss";
+import { withRouter } from "react-router";
 
-const LogoutButton = () => {
+const LogoutButton = ({ history }) => {
   return (
-    <button onClick={() => console.log("logout")} className="btn--logout">
+    <button onClick={() => history.push("/login")} className="btn--logout">
       Logout
     </button>
   );
 };
 
-export default LogoutButton;
+export default withRouter(LogoutButton);

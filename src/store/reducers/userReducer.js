@@ -1,9 +1,11 @@
+import userConstans from "store/constants/userConstants";
+
 export default function userReducer(state = {}, action) {
   switch (action.type) {
-    case "LOGIN": {
+    case userConstans.LOGIN: {
       return { user: action.user };
     }
-    case "LOGOUT": {
+    case userConstans.LOGOUT: {
       return {};
     }
     default: {

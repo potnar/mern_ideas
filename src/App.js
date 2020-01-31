@@ -4,25 +4,17 @@ import axios from "axios";
 import Home from "components/Home";
 import "./App.scss";
 import Navbar from "./components/Navbar";
-import { connect } from "react-redux";
-import userActions from "./store/actions/userActions";
 import AuthForm from "components/AuthForm";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import withAuth from "components/shared/hoc/withAuth";
-
-function getMockUser() {
-  const MOCK_USER_ID = "5e1f5148433a060e84a6dcb5";
-  return axios.get(`users?id=${MOCK_USER_ID}`);
-}
 
 // import $ from "jquery";
 class App extends Component {
   constructor(props) {
     super(props);
-    getMockUser().then(response => {
-      props.login(response.data);
-    });
+    // this.setLocalUserToRedux();
   }
+
   //lepiej tego nie używać, ale w ten sposób używa się jQuery w react
   // class App extends Component {
 
@@ -41,6 +33,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={withAuth(Home)} />
             <Route path="/login" component={AuthForm} />
+            <Route path="/" component={withAuth(Home)} />
           </Switch>
         </div>
       </Router>
@@ -48,7 +41,4 @@ class App extends Component {
   }
 }
 
-const mapDispatchToProps = { login: userActions.login };
-
-//należy obydwa argumenty zadeklarować, standardowo funkcja connect, która jest pobierana z biblioteki react-redux, przyjmuje dwa argumenty mapStateToProps (czyli przekazywanie do propsów rzeczy z reduxowego store), a druga to mapDispatchToProps (czyli przekazywanie do propsów funkcji, które pozwalają zmienić stan reduxowego store), (nie trzeba ich używać jednocześnie ale jeśli chcemy użyć tylko mapDispatchToProps to w miejsce pierwszego argumentu trzeba wstawić null, w drugim wypadku nie trzeba niczego dodawać)
-export default connect(null, mapDispatchToProps)(App);
+export default App;

@@ -30,33 +30,41 @@ class StickyNoteList extends React.Component {
   // }
   state = { noteList: [] };
 
+  componentDidMount() {
+    // console.log("componentDidMount", this.props.user);
+    this.props.user && this.getNoteList(this.props.user._id);
+  }
+
   componentWillReceiveProps(nextProps) {
+    // console.log("componentWillReceiveProps", nextProps.user);
     if (nextProps.user && nextProps.user !== this.props.user) {
-      this.getNoteList(nextProps.user._id);
+      this.getNoteList(nextProps.user._id, nextProps.user.token);
     }
   }
 
-  getNoteList = userId => {
-    userService.getAllUserIDs().then(result => {
-      const loggedUser = result.filter(user => user._id === userId)[0];
-      const noteList = [...result];
+  getNoteList = (userId, token) => {
+    userService
+      .getAllUserIDs({ token: token || this.props.user.token })
+      .then(result => {
+        const loggedUser = result.filter(user => user._id === userId)[0];
+        const noteList = [...result];
 
-      result.forEach((user, index) => {
-        if (user._id === loggedUser._id) {
-          noteList.splice(index, 1);
-        }
+        result.forEach((user, index) => {
+          if (user._id === loggedUser._id) {
+            noteList.splice(index, 1);
+          }
+        });
+
+        noteList.unshift(loggedUser);
+        this.setState({ noteList });
       });
-
-      noteList.unshift(loggedUser);
-      this.setState({ noteList });
-    });
   };
 
   handleAddCategory = category => {
     const userId = this.props.user._id;
     //funkcja dodająca kategorię
     categoryService
-      .put({ category, userId })
+      .put({ category, userId, token: this.props.user.token })
       .then(res => this.getNoteList(userId))
       .catch(err => console.error(err));
   };

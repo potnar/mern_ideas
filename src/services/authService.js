@@ -9,8 +9,17 @@ const register = ({ username, password, name, surname }) => {
 };
 
 const auth = ({ token }) => {
-  console.log(token);
   return axios.post("auth", { token });
 };
+
+// const funkcjazwracajacapromise = () => {
+// return new Promise((resolve,reject) => {
+//   //async code
+//   resolve(data)
+//   reject(error)
+// })
+// }
+
+// funkcjazwracajacapromise().then((data) => { console.log(data); }).catch((error) => console.error(error))
 
 export default { login, register, auth };

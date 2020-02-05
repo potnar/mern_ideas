@@ -4,7 +4,7 @@ import axios from "axios";
 import Home from "components/Home";
 import "./App.scss";
 import Navbar from "./components/Navbar";
-import AuthForm from "components/AuthForm";
+import LoginForm from "components/LoginForm";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import withAuth from "components/shared/hoc/withAuth";
 
@@ -32,7 +32,7 @@ class App extends Component {
           <Navbar />
           <Switch>
             <Route exact path="/" component={withAuth(Home)} />
-            <Route path="/login" component={AuthForm} />
+            <Route path="/login" component={LoginForm} />
             <Route path="/" component={withAuth(Home)} />
           </Switch>
         </div>

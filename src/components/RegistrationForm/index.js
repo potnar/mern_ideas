@@ -1,12 +1,19 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "./AuthForm.scss";
+import "./RegistrationForm.scss";
 import authService from "services/authService";
 import { withRouter } from "react-router";
 import userActions from "store/actions/userActions";
 
-class AuthForm extends Component {
-  state = { username: "", password: "" };
+/*
+RegisterForm - musisz w dowolny sposób wyrenderować formularz rejestracji, który onSubmit będzie wykonywał 
+authService.register({ username, password, name, surname })
+.then(res => res.data).then(user => alert('sukces'); console.log(user);); 
+... czy coś w tym stylu
+*/
+
+class RegistrationForm extends Component {
+  state = { username: "", password: "", name: "", surname: "" };
 
   //odpala się gdy component zamontuje się na DOM'ie (lifeCycle method)
   componentDidMount() {
@@ -21,13 +28,22 @@ class AuthForm extends Component {
   handlePasswordChange = e => {
     this.setState({ password: e.target.value });
   };
+  handleNameChange = e => {
+    this.setState({ name: e.target.value });
+  };
+
+  handleSurnameChange = e => {
+    this.setState({ surname: e.target.value });
+  };
 
   handleSubmit = e => {
     e.preventDefault();
     authService
-      .login({
+      .registration({
         username: this.state.username,
-        password: this.state.password
+        password: this.state.password,
+        name: this.state.name,
+        surname: this.state.surname
       })
       .then(res => {
         console.log(res);
@@ -50,22 +66,32 @@ class AuthForm extends Component {
   render() {
     return (
       <form
-        className="login-form"
+        className="registration-form"
         onSubmit={this.handleSubmit}
         onKeyDown={e => e.keyCode === 13 && this.handleSubmit(e)}
       >
         <input
-          placeholder="Username"
+          placeholder="Username..."
           onChange={this.handleUsernameChange}
           value={this.state.username}
         ></input>
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Password..."
           onChange={this.handlePasswordChange}
           value={this.state.password}
         ></input>
-        <button type="submit">Sign In</button>
+        <input
+          placeholder="Name..."
+          onChange={this.handleNameChange}
+          value={this.state.name}
+        ></input>
+        <input
+          placeholder="Surname..."
+          onChange={this.handleSurnameChange}
+          value={this.state.surname}
+        ></input>
+        <button type="submit">Register</button>
       </form>
     );
   }
@@ -73,4 +99,4 @@ class AuthForm extends Component {
 
 const mapDispatchToProps = { logout: userActions.logout };
 
-export default connect(null, mapDispatchToProps)(withRouter(AuthForm));
+export default connect(null, mapDispatchToProps)(withRouter(RegistrationForm));

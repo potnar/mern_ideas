@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { uid } from "react-uid";
 import "./StickyNote.scss";
 import StickyNoteCategory from "./StickyNoteCategory";

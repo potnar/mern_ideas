@@ -42,6 +42,7 @@ class LoginForm extends Component {
           "user",
           JSON.stringify({
             user: {
+              username: res.data.user.username,
               _id: res.data.user._id,
               token: res.data.user.token
             }

@@ -5,6 +5,7 @@ import Home from "components/Home";
 import "./App.scss";
 import Navbar from "./components/Navbar";
 import LoginForm from "components/LoginForm";
+import RegistrationForm from "components/RegistrationForm";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import withAuth from "components/shared/hoc/withAuth";
 
@@ -33,6 +34,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={withAuth(Home)} />
             <Route path="/login" component={LoginForm} />
+            <Route path="/register" component={RegistrationForm} />
             <Route path="/" component={withAuth(Home)} />
           </Switch>
         </div>

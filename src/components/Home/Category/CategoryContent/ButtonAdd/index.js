@@ -2,16 +2,17 @@ import React from "react";
 import "./ButtonAdd.scss";
 
 export default class ButtonAdd extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      rotated: false
+      rotated: false,
+      idea: ""
     };
   }
-  onRotate = () => {
-    this.setState({
-      rotated: true
-    });
+
+  handleChange = (e, { onSubmit }) => {
+    this.setState({ idea: e.target.value, rotated: true });
+    setValue("");
   };
 
   render() {
@@ -19,11 +20,13 @@ export default class ButtonAdd extends React.Component {
       <div className="btn">
         <div
           className={this.state.rotated ? "rotated" : "plus-button"}
-          onClick={this.onRotate}
+          onClick={this.handleChange}
+          onKeyDown={e => e.keyCode === 13 && this.handleChange()}
         ></div>
         <input
           className={this.state.rotated ? "add-idea" : "idea"}
           placeholder="Add idea..."
+          onChange={}
         ></input>
       </div>
     );

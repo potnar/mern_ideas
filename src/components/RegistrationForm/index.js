@@ -47,16 +47,8 @@ class RegistrationForm extends Component {
       })
       .then(res => {
         console.log(res);
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            user: {
-              _id: res.data.user._id,
-              token: res.data.user.token
-            }
-          })
-        );
-        this.props.history.push("/");
+
+        this.props.history.push("/login");
       })
       .catch(error => {
         console.error(error);

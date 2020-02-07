@@ -1,5 +1,6 @@
 //importowanie
 const mongoose = require("mongoose");
+const Category = require("../schemas/Category");
 const Idea = require("../schemas/Idea");
 const trimObj = require("../src/helpers/trimObj");
 
@@ -18,6 +19,7 @@ const trimObj = require("../src/helpers/trimObj");
 function get(req, res) {
   //query to są parametry, e.g. http://url?param1=value&param2=value czyli query to są param1 i param2 czyli przesyłana dana
   const { query } = req;
+  const { category } = query;
   if (query.id) {
     Idea.findById(query.id, (err, idea) => {
       if (err) {
@@ -29,7 +31,7 @@ function get(req, res) {
     });
     // Idea.findById(query.id).then(res => ...).catch(err => ...);
   } else {
-    Idea.find((err, idea) => {
+    Idea.find({ category }, (err, idea) => {
       if (err) {
         console.error(err);
         errors.idea = "couldn't get ideas list";
@@ -66,16 +68,34 @@ function post(req, res) {
 function put(req, res) {
   let errors = {};
 
-  const { name } = req.body;
+  const { name, category } = req.body;
 
-  const newIdea = new Idea({ name });
+  const newIdea = new Idea({ name, category });
   newIdea.save((err, idea) => {
     if (err) {
       console.error(err);
       errors.idea = "couldn't create idea";
       res.status(404).json({ errors });
     }
-    res.json(idea);
+    idea &&
+      Category.findByIdAndUpdate(
+        category,
+        { $push: { ideas: idea._id } },
+        categoryError => {
+          if (categoryError) {
+            console.error(categoryError);
+            errors.category = "couldn't update category idea";
+            res.status(404).json({ errors });
+          }
+          if (err) {
+            console.error(err);
+            errors.category = "couldn't create idea";
+            res.status(404).json({ errors });
+          }
+          console.log("idea = ", idea);
+          res.json(idea);
+        }
+      );
   });
 }
 

@@ -39,7 +39,7 @@ class RegistrationForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
     authService
-      .registration({
+      .register({
         username: this.state.username,
         password: this.state.password,
         name: this.state.name,

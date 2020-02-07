@@ -5,7 +5,7 @@ const login = ({ username, password }) => {
 };
 
 const register = ({ username, password, name, surname }) => {
-  return axios.post("auth/login", { username, password, name, surname });
+  return axios.post("auth/register", { username, password, name, surname });
 };
 
 const auth = ({ token }) => {

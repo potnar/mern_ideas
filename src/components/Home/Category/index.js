@@ -4,8 +4,6 @@ import CategoryContent from "./CategoryContent";
 import "./Category.scss";
 
 class Category extends React.Component {
-  const;
-
   render() {
     const { onCategoryChange, category } = this.props;
     if (!category) return null;
@@ -16,7 +14,7 @@ class Category extends React.Component {
           categories={category.categoriesList}
           onCategoryChange={onCategoryChange}
         />
-        <CategoryContent content={category} />
+        <CategoryContent category={category} />
       </div>
     );
   }

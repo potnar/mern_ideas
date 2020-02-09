@@ -21,22 +21,46 @@ class CategoryContent extends React.PureComponent {
       .get({ token: this.props.token, category })
       .then(ideas => this.setState({ ideas }));
   };
+  handleDeleteIdea = id => {
+    ideaService
+      .del({
+        category: this.props.category._id,
+        id,
+        token: this.props.token
+      })
+      .then(() => {
+        this.getIdeasList(this.props.category._id);
+      });
+  };
   render() {
     const { ideas } = this.state;
     return (
       <div className="category-content">
         <div className="ideas-list">
           {ideas.map(idea => (
-            <div className="idea" key={uid(idea)}>
-              {idea.name}
+            <div className="idea-row">
+              <div className="idea" key={uid(idea)}>
+                {idea.name}
+              </div>
+              <div className="spacer"></div>
+              <button
+                className="del-button"
+                onClick={() => {
+                  this.handleDeleteIdea(idea._id);
+                }}
+              >
+                X
+              </button>
             </div>
           ))}
         </div>
         <div className="add-idea--content">
-          <ButtonAdd
-            categoryId={this.props.category._id}
-            onSubmitIdea={() => this.getIdeasList(this.props.category._id)}
-          />
+          {this.props.category.isLoggedUser && (
+            <ButtonAdd
+              categoryId={this.props.category._id}
+              onSubmitIdea={() => this.getIdeasList(this.props.category._id)}
+            />
+          )}
         </div>
       </div>
     );

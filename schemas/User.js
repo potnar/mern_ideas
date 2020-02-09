@@ -76,8 +76,44 @@ usersSchema.methods.toAuthJSON = function() {
 };
 
 function validateJWT(token, cb) {
+  // cb = (err, decoded) => ...
   return jwt.verify(token, process.env.AUTH_SECRET, cb);
+}
+
+function isResourceRestricted(Model, resourceId, secondaryKey, token) {
+  /*
+  When user wants to modify a resource, we have to first check if his token gives him privilege to modify it.
+  Model - is a requested resource mongoose Model, so, for example if we want to add idea to categories, it will be Category model. 
+  resourceId - is a requested resource id, so, for example if we want to add idea to categories, it will be categorie's id. 
+  secondaryKey - is a requested resource foreign key by which we can access user's id. That way we can compare if token belongs to this user. 
+  token - authorization token without "Bearer " prefix.
+
+  Function returns promise, which decodes token to get the user's id, and find's the corresponding user's id on the required resource. 
+  If they're the same, it resolves with decoded token.
+  */
+  return new Promise((resolve, reject) => {
+    let errors = {};
+    return Model.findById(resourceId, (err, res) => {
+      if (err) {
+        console.error(err);
+        errors.category = "couldn't find " + resourceId;
+        reject(errors);
+      }
+      validateJWT(token, (validateErr, decoded) => {
+        if (err) {
+          console.error(err);
+          errors.token = "Token couldn't be decoded";
+          reject(errors);
+        }
+        if (res[secondaryKey].toString() === decoded.id) {
+          resolve(decoded);
+        }
+        reject({ errors: err || validateErr });
+      });
+    });
+  });
 }
 
 module.exports = mongoose.model("User", usersSchema);
 module.exports.validateJWT = validateJWT;
+module.exports.isResourceRestricted = isResourceRestricted;

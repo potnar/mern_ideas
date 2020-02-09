@@ -26,7 +26,11 @@ const StickyNote = ({
       <div className="sticker__title">{getFormattedName(note)}</div>
       <div className="sticker__content">
         <div>
-          <StickyNoteContent note={note} onCategoryChange={onCategoryChange} />
+          <StickyNoteContent
+            note={note}
+            onCategoryChange={onCategoryChange}
+            isLoggedUser={isLoggedUser}
+          />
         </div>
       </div>
       {isLoggedUser && (
@@ -36,7 +40,7 @@ const StickyNote = ({
   );
 };
 
-const StickyNoteContent = ({ note, onCategoryChange }) => {
+const StickyNoteContent = ({ note, onCategoryChange, isLoggedUser }) => {
   const handleCategoryChange = category => {
     // const loggedUser = result.filter(user => user._id === userId)[0];
     // const noteList = [...result];
@@ -49,10 +53,13 @@ const StickyNoteContent = ({ note, onCategoryChange }) => {
     // this.setState({ noteList });
     const categoriesList = [...note.categories];
 
-    onCategoryChange({
-      ...category,
-      categoriesList
-    });
+    onCategoryChange(
+      {
+        ...category,
+        categoriesList
+      },
+      isLoggedUser
+    );
   };
   if (
     !note ||

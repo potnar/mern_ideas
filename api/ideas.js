@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const Category = require("../schemas/Category");
 const Idea = require("../schemas/Idea");
 const trimObj = require("../src/helpers/trimObj");
+const User = require("../schemas/User");
 
 //idea.find użyć, popatrzec na doc mongo. wyciągnąć wszystkie ideas z bazy danych
 // Przykład funkcji asynchronicznej (promise). Funkcja ta jest wywoływana równolegle (asynchronicznie)
@@ -70,48 +71,87 @@ function put(req, res) {
 
   const { name, category } = req.body;
 
-  const newIdea = new Idea({ name, category });
-  newIdea.save((err, idea) => {
-    if (err) {
-      console.error(err);
-      errors.idea = "couldn't create idea";
-      res.status(404).json({ errors });
-    }
-    idea &&
-      Category.findByIdAndUpdate(
-        category,
-        { $push: { ideas: idea._id } },
-        categoryError => {
-          if (categoryError) {
-            console.error(categoryError);
-            errors.category = "couldn't update category idea";
-            res.status(404).json({ errors });
-          }
-          if (err) {
-            console.error(err);
-            errors.category = "couldn't create idea";
-            res.status(404).json({ errors });
-          }
-          console.log("idea = ", idea);
-          res.json(idea);
+  User.isResourceRestricted(
+    Category,
+    category,
+    "author",
+    req.headers.authorization.slice(7)
+  )
+    .then(decodedToken => {
+      const newIdea = new Idea({ name, category });
+      newIdea.save((err, idea) => {
+        if (err) {
+          console.error(err);
+          errors.idea = "couldn't create idea";
+          res.status(404).json({ errors });
         }
-      );
-  });
+        idea &&
+          Category.findByIdAndUpdate(
+            category,
+            { $addToSet: { ideas: idea._id } }, // addToSet - mongoose update operator that upserts value to array
+            categoryError => {
+              if (categoryError) {
+                console.error(categoryError);
+                errors.category = "couldn't update category idea";
+                res.status(404).json({ errors });
+              }
+              if (err) {
+                console.error(err);
+                errors.category = "couldn't create idea";
+                res.status(404).json({ errors });
+              }
+              console.log("idea = ", idea);
+              res.json(idea);
+            }
+          );
+      });
+    })
+    .catch(err => {
+      console.error("error = ", err);
+      res.status(404).json(err);
+    });
 }
 
 function del(req, res) {
   let errors = {};
 
-  const { id } = req.body;
-
-  Idea.deleteOne({ _id: id }, (err, result) => {
-    if (err) {
-      console.error(err);
-      errors.idea = "couldn't delete idea";
-      res.status(404).json({ errors });
-    }
-    res.json(result);
-  });
+  const { query } = req;
+  const { category, id } = query;
+  User.isResourceRestricted(
+    Category,
+    category,
+    "author",
+    req.headers.authorization.slice(7)
+  )
+    .then(decodedToken => {
+      Idea.deleteOne({ _id: id }, (err, result) => {
+        if (err) {
+          console.error(err);
+          errors.idea = "couldn't delete idea";
+          res.status(404).json({ errors });
+        }
+        result.ok &&
+          result.n === 1 &&
+          Category.findByIdAndUpdate(
+            category,
+            { $pull: { ideas: id } }, // operator removes from an existing array all instances of a value or values that match a specified condition.
+            categoryError => {
+              if (categoryError) {
+                console.error(categoryError);
+                errors.category = "couldn't update category idea";
+                res.status(404).json({ errors });
+              }
+              if (err) {
+                console.error(err);
+                errors.category = "couldn't create idea";
+                res.status(404).json({ errors });
+              }
+              res.json(result);
+            }
+          );
+      });
+    })
+    .catch(err => {});
 }
 
 module.exports = { get, post, put, del };

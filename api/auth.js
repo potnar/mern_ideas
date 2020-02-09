@@ -74,7 +74,6 @@ function login(req, res, next) {
 
 function auth(req, res) {
   const { token } = req.body;
-  console.log("token = ", token, "\n\n\n");
   User.validateJWT(token, (err, decoded) => {
     if (err) {
       res.status(400).json({ success: false, error: err });

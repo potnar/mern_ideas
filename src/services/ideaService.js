@@ -20,4 +20,20 @@ const put = ({ idea, categoryId, token }) => {
   );
 };
 
-export default { put, get };
+const del = ({ id, category, token }) => {
+  console.log("tokenDel: ", token);
+  return axios
+    .delete(
+      //nazwa endpointu
+      "ideas",
+      //header.body
+      {
+        params: { category, id },
+        //precyzowanie header authorization aby wyciagnac z headera token po stronie serwera
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    )
+    .then(res => res.data);
+};
+
+export default { put, get, del };

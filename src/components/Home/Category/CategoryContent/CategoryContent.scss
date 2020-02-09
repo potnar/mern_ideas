@@ -1,4 +1,10 @@
 .add-idea--content {
   display: flex;
-  justify-content: center;
+}
+.idea-row {
+  width: 200px;
+  display: flex;
+  .spacer {
+    flex-grow: 1;
+  }
 }

@@ -6,7 +6,7 @@ class Home extends React.Component {
   // stworzony po to aby przechowywać informacje o wybranej kategorii oraz listę kategorii zeby wyswietlic liste kategorii w komponencie Category, który składa sie z listy kategorii po lewej stronie oraz contentu wybranej kategorii po prawej stronie
   state = { category: null };
 
-  handleCategoryChange = category => {
+  handleCategoryChange = (category, isLoggedUser) => {
     this.setState(prevState => {
       const categoriesList =
         (prevState.category && prevState.category.categoriesList) ||
@@ -15,6 +15,7 @@ class Home extends React.Component {
 
       return {
         category: {
+          isLoggedUser,
           categoriesList,
           ...category
         }

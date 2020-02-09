@@ -2,11 +2,11 @@
 .btn {
   cursor: pointer;
   display: flex;
+  margin-top: 10px;
   .plus-button {
-    position: absolute;
-    left: 47.5%;
     border: 1px solid $mustard;
     background-color: $mustard;
+    position: relative;
     font-size: 20px;
     height: 2.5em;
     width: 2.5em;
@@ -21,62 +21,17 @@
       top: 50%;
       left: 50%;
       transform: rotate(0deg) translate(-50%, -50%);
-      // transition: transform 1s ease-in;
     }
 
     &:before {
       height: 1em;
       width: 0.2em;
-      // animation: rotateBefore 6s ease-in forwards;
-      // animation: positionYbefore 2s ease-in forwards;
     }
 
     &:after {
       height: 0.2em;
       width: 1em;
-      // animation: rotateAfter 6s ease-in forwards;
-      // animation: positionXafter 2s ease-in forwards;
-      // animation: positionYafter 2s ease-in forwards;
     }
-    // &:hover:after {
-    //   transform: rotate(-45deg);
-    //   -webkit-transform: rotate(-45deg);
-    //   top: 60%;
-    //   left: 32.5%;
-    // }
-    // &:hover:before {
-    //   transform: rotate(-45deg);
-    //   -webkit-transform: rotate(-45deg);
-    //   top: 20%;
-    //   left: 50%;
-    // }
-
-    // @keyframes positionYbefore {
-    //   from {
-    //     top: 50%;
-    //   }
-    //   to {
-    //     top: 20%;
-    //   }
-    // }
-
-    // @keyframes positionYafter {
-    //   from {
-    //     top: 50%;
-    //   }
-    //   to {
-    //     top: 60%;
-    //   }
-    // }
-
-    // @keyframes positionXafter {
-    //   from {
-    //     left: 50%;
-    //   }
-    //   to {
-    //     left: 32.5%;
-    //   }
-    // }
   }
   .idea {
     display: none;
@@ -102,39 +57,25 @@
     background-color: white;
     position: absolute;
     transform: rotate(0deg) translate(-50%, -50%);
-
-    // transform: translate(-50%, -50%);
-
-    // transition: transform 1s ease-in;
   }
 
   &:before {
     height: 1em;
     width: 0.2em;
     animation: rotateBefore 2s ease-in forwards;
-    // background-color: blue;
-    // animation: positionYbefore 2s ease-in forwards;
-    // transform: rotate(-45deg);
-    // -webkit-transform: rotate(-45deg);
-    // top: 20%;
-    // left: 50%;
   }
 
   &:after {
     height: 0.2em;
     width: 1em;
     animation: rotateAfter 2s ease-in forwards;
-    // background-color: red;
-    // transform: rotate(-45deg);
-    // -webkit-transform: rotate(-45deg);
-    // top: 60%;
-    // left: 32.5%;
   }
 }
 .add-idea {
   display: block;
   border-bottom-right-radius: 20px;
   border-top-right-radius: 20px;
+  padding-left: 10px;
   border: none;
   animation: slide 2s ease-in forwards;
 }

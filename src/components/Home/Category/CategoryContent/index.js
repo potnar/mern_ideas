@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import ButtonAdd from "./ButtonAdd";
 import ideaService from "services/ideaService";
 import "./CategoryContent.scss";
+import { FiMessageSquare } from "react-icons/fi";
+import { MdDeleteForever } from "react-icons/md";
 
 class CategoryContent extends React.PureComponent {
   state = { ideas: [] };
@@ -38,19 +40,23 @@ class CategoryContent extends React.PureComponent {
       <div className="category-content">
         <div className="ideas-list">
           {ideas.map(idea => (
-            <div className="idea-row">
-              <div className="idea" key={uid(idea)}>
-                {idea.name}
+            <div className="idea-section">
+              <div className="idea-row">
+                <div className="idea" key={uid(idea)}>
+                  {idea.name}
+                </div>
+                <div className="spacer"></div>
+                <div></div>
+                <FiMessageSquare size="1.6rem" />
+                <MdDeleteForever
+                  size="1.6rem"
+                  className="del-button"
+                  onClick={() => {
+                    this.handleDeleteIdea(idea._id);
+                  }}
+                />
               </div>
-              <div className="spacer"></div>
-              <button
-                className="del-button"
-                onClick={() => {
-                  this.handleDeleteIdea(idea._id);
-                }}
-              >
-                X
-              </button>
+              <textarea></textarea>
             </div>
           ))}
         </div>

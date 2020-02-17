@@ -23,7 +23,6 @@ class ButtonAdd extends React.Component {
 
   handleChange = e => {
     this.setState({ idea: e.target.value });
-    console.log("siema");
   };
   openInput = () => {
     this.setState({ active: true });

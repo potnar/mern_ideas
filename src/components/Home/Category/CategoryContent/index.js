@@ -6,6 +6,7 @@ import ideaService from "services/ideaService";
 import "./CategoryContent.scss";
 import { FiMessageSquare } from "react-icons/fi";
 import { MdDeleteForever } from "react-icons/md";
+import { IconContext } from "react-icons";
 
 class CategoryContent extends React.PureComponent {
   state = { ideas: [] };
@@ -47,14 +48,16 @@ class CategoryContent extends React.PureComponent {
                 </div>
                 <div className="spacer"></div>
                 <div></div>
-                <FiMessageSquare size="1.6rem" />
-                <MdDeleteForever
-                  size="1.6rem"
-                  className="del-button"
-                  onClick={() => {
-                    this.handleDeleteIdea(idea._id);
-                  }}
-                />
+                <IconContext.Provider value={{ className: "icons" }}>
+                  <FiMessageSquare size="1.6rem" />
+                  <MdDeleteForever
+                    size="1.6rem"
+                    className="del-button"
+                    onClick={() => {
+                      this.handleDeleteIdea(idea._id);
+                    }}
+                  />
+                </IconContext.Provider>
               </div>
               <textarea></textarea>
             </div>

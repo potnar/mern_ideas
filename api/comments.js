@@ -56,7 +56,7 @@ function put(req, res) {
 
     Idea.findByIdAndUpdate(
       idea,
-      { $push: { comments: comment._id } },
+      { $addToSet: { comments: comment._id } },
       userError => {
         if (userError) {
           console.error(userError);

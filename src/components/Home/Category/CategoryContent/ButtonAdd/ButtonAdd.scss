@@ -49,7 +49,7 @@
   border-top-right-radius: 999px;
   border-bottom-left-radius: 999px;
   border-top-left-radius: 999px;
-  animation: border 2s ease-in forwards;
+  animation: border 0.4s ease-in forwards;
   &:after,
   &:before {
     content: "";
@@ -62,13 +62,13 @@
   &:before {
     height: 1em;
     width: 0.2em;
-    animation: rotateBefore 2s ease-in forwards;
+    animation: rotateBefore 0.4s ease-in forwards;
   }
 
   &:after {
     height: 0.2em;
     width: 1em;
-    animation: rotateAfter 2s ease-in forwards;
+    animation: rotateAfter 0.4s ease-in forwards;
   }
 }
 .add-idea {
@@ -77,7 +77,7 @@
   border-top-right-radius: 20px;
   padding-left: 10px;
   border: none;
-  animation: slide 2s ease-in forwards;
+  animation: slide 0.4s ease-in forwards;
 }
 
 @keyframes slide {

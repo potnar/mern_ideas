@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 const Navbar = ({ user, location }) => {
-  console.log(location);
   return (
     <nav className="nav">
       <div className="menu-item">{(user && user.username) || ""}</div>

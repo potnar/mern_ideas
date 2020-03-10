@@ -9,17 +9,13 @@ import { FiMessageSquare } from "react-icons/fi";
 import { MdDeleteForever } from "react-icons/md";
 import { IconContext } from "react-icons";
 
-class CategoryContent extends React.PureComponent {
+class CategoryContent extends React.Component {
   constructor(props) {
     super(props);
     this.state = { ideas: [] };
     props.category &&
       props.category._id &&
       this.getIdeasList(props.category._id).then(ideas => {
-        console.log(ideas);
-        ideas.forEach(idea => {
-          this[idea._id + " comment"] = React.createRef();
-        });
         this.setState({ ideas });
       });
   }
@@ -34,6 +30,10 @@ class CategoryContent extends React.PureComponent {
     return ideaService
       .get({ token: this.props.token, category })
       .then(ideas => {
+        ideas.forEach(idea => {
+          console.log("constructor ", idea);
+          this[this.getRefId(idea._id)] = React.createRef();
+        });
         this.setState({ ideas });
         return ideas;
       });
@@ -51,28 +51,34 @@ class CategoryContent extends React.PureComponent {
       });
   };
 
-  handleSubmitComment = refId => {
+  handleSubmitComment = ideaId => {
     const { author } = this.props;
-    const content = this[refId].current ? this[refId].current.value : "ERROR";
-    console.log(this[refId].current);
+    const refId = this.getRefId(ideaId);
+    const content = this[refId] ? this[refId].current.value : "ERROR";
     commentService
-      .put({ content, author, token: this.props.token })
+      .put({ content, author, token: this.props.token, idea: ideaId })
       .then(result => {
         this.getIdeasList(this.props.category._id);
       });
   };
 
+  getRefId = id => `${id} comment`;
+
   render() {
     const { ideas } = this.state;
+    this.state.ideas.forEach(idea => {
+      // console.log(idea.comments);
+      console.log("ref = ", this[idea._id + " comment"]);
+    });
+
+    console.log("render ideas = ", ideas);
     return (
       <div className="category-content">
         <div className="ideas-list">
           {ideas.map(idea => (
-            <div className="idea-section">
+            <div className="idea-section" key={uid(idea)}>
               <div className="idea-row">
-                <div className="idea" key={uid(idea)}>
-                  {idea.name}
-                </div>
+                <div className="idea">{idea.name}</div>
                 <div className="spacer"></div>
                 <div></div>
                 <IconContext.Provider value={{ className: "icons" }}>
@@ -87,19 +93,16 @@ class CategoryContent extends React.PureComponent {
                 </IconContext.Provider>
               </div>
               {idea.comments.map(comment => (
-                <div>{comment.content}</div>
+                <div key={uid(comment)}>{comment.content}</div>
               ))}
               <textarea
-                ref={this[idea._id + " comment"]}
+                ref={this[this.getRefId(idea._id)]}
                 placeholder="Add comment..."
                 onKeyDown={e =>
-                  e.keyCode === 13 &&
-                  this.handleSubmitComment(idea._id + " comment")
+                  e.keyCode === 13 && this.handleSubmitComment(idea._id)
                 }
               ></textarea>
-              <button
-                onClick={() => this.handleSubmitComment(idea._id + " comment")}
-              >
+              <button onClick={() => this.handleSubmitComment(idea._id)}>
                 dodaj
               </button>
             </div>

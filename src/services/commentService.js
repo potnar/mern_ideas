@@ -9,12 +9,12 @@ const get = ({ author, token }) => {
     .then(res => res.data);
 };
 
-const put = ({ content, author, token }) => {
+const put = ({ content, author, token, idea }) => {
   return axios.put(
     //nazwa endpointu
     "comments",
     //header.body
-    { content, author },
+    { content, author, idea },
     { headers: { Authorization: `Bearer ${token}` } }
   );
 };

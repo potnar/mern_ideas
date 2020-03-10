@@ -3,27 +3,42 @@ import { uid } from "react-uid";
 import { connect } from "react-redux";
 import ButtonAdd from "./ButtonAdd";
 import ideaService from "services/ideaService";
+import commentService from "services/commentService";
 import "./CategoryContent.scss";
 import { FiMessageSquare } from "react-icons/fi";
 import { MdDeleteForever } from "react-icons/md";
 import { IconContext } from "react-icons";
 
 class CategoryContent extends React.PureComponent {
-  state = { ideas: [] };
-
-  componentDidMount() {
-    this.props.category && this.getIdeasList(this.props.category._id);
+  constructor(props) {
+    super(props);
+    this.state = { ideas: [] };
+    props.category &&
+      props.category._id &&
+      this.getIdeasList(props.category._id).then(ideas => {
+        console.log(ideas);
+        ideas.forEach(idea => {
+          this[idea._id + " comment"] = React.createRef();
+        });
+        this.setState({ ideas });
+      });
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.category !== this.props.category) {
       this.getIdeasList(nextProps.category._id);
     }
   }
+
   getIdeasList = category => {
-    ideaService
+    return ideaService
       .get({ token: this.props.token, category })
-      .then(ideas => this.setState({ ideas }));
+      .then(ideas => {
+        this.setState({ ideas });
+        return ideas;
+      });
   };
+
   handleDeleteIdea = id => {
     ideaService
       .del({
@@ -35,6 +50,18 @@ class CategoryContent extends React.PureComponent {
         this.getIdeasList(this.props.category._id);
       });
   };
+
+  handleSubmitComment = refId => {
+    const { author } = this.props;
+    const content = this[refId].current ? this[refId].current.value : "ERROR";
+    console.log(this[refId].current);
+    commentService
+      .put({ content, author, token: this.props.token })
+      .then(result => {
+        this.getIdeasList(this.props.category._id);
+      });
+  };
+
   render() {
     const { ideas } = this.state;
     return (
@@ -59,7 +86,22 @@ class CategoryContent extends React.PureComponent {
                   />
                 </IconContext.Provider>
               </div>
-              <textarea></textarea>
+              {idea.comments.map(comment => (
+                <div>{comment.content}</div>
+              ))}
+              <textarea
+                ref={this[idea._id + " comment"]}
+                placeholder="Add comment..."
+                onKeyDown={e =>
+                  e.keyCode === 13 &&
+                  this.handleSubmitComment(idea._id + " comment")
+                }
+              ></textarea>
+              <button
+                onClick={() => this.handleSubmitComment(idea._id + " comment")}
+              >
+                dodaj
+              </button>
             </div>
           ))}
         </div>
@@ -76,8 +118,9 @@ class CategoryContent extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  token: state.userReducer.user.token
-});
+const mapStateToProps = state => {
+  const { user } = state.userReducer;
+  return { token: user && user.token, author: user && user._id };
+};
 
 export default connect(mapStateToProps)(CategoryContent);

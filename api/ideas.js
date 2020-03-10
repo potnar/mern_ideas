@@ -22,24 +22,28 @@ function get(req, res) {
   const { query } = req;
   const { category } = query;
   if (query.id) {
-    Idea.findById(query.id, (err, idea) => {
-      if (err) {
-        console.error(err);
-        errors.idea = "couldn't get ideas list";
-        res.status(404).json({ errors });
-      }
-      res.json(idea);
-    });
+    Idea.findById(query.id)
+      .populate("comments")
+      .exec((err, idea) => {
+        if (err) {
+          console.error(err);
+          errors.idea = "couldn't get ideas list";
+          res.status(404).json({ errors });
+        }
+        res.json(idea);
+      });
     // Idea.findById(query.id).then(res => ...).catch(err => ...);
   } else {
-    Idea.find({ category }, (err, idea) => {
-      if (err) {
-        console.error(err);
-        errors.idea = "couldn't get ideas list";
-        res.status(404).json({ errors });
-      }
-      res.json(idea);
-    });
+    Idea.find({ category })
+      .populate("comments")
+      .exec((err, idea) => {
+        if (err) {
+          console.error(err);
+          errors.idea = "couldn't get ideas list";
+          res.status(404).json({ errors });
+        }
+        res.json(idea);
+      });
   }
 }
 

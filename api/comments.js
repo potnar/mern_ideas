@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Comment = require("../schemas/Comment");
+const Idea = require("../schemas/Idea");
 
 function get(req, res) {
   const { query } = req;
@@ -43,7 +44,7 @@ function post(req, res) {
 
 function put(req, res) {
   let errors = {};
-  const { author, content } = req.body;
+  const { author, content, idea } = req.body;
 
   const newComment = new Comment({ author, content });
   newComment.save((err, comment) => {
@@ -52,7 +53,24 @@ function put(req, res) {
       errors.comment = "couldn't create comment";
       res.status(404).json({ errors });
     }
-    res.json(comment);
+
+    Idea.findByIdAndUpdate(
+      idea,
+      { $push: { comments: comment._id } },
+      userError => {
+        if (userError) {
+          console.error(userError);
+          errors.idea = "couldn't update idea comments";
+          res.status(404).json({ errors });
+        }
+        if (err) {
+          console.error(err);
+          errors.comment = "couldn't create test";
+          res.status(404).json({ errors });
+        }
+        res.json(comment);
+      }
+    );
   });
 }
 

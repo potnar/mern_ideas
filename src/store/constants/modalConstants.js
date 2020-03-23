@@ -1,0 +1,2 @@
+export const SHOW_MODAL = "MODAL_SHOW_MODAL";
+export const CLOSE_MODAL = "MODAL_CLOSE_MODAL";

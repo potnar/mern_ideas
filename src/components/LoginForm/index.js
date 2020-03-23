@@ -4,6 +4,7 @@ import "./LoginForm.scss";
 import authService from "services/authService";
 import { withRouter } from "react-router";
 import userActions from "store/actions/userActions";
+import { openModal } from "store/actions/modalActions";
 
 /*
 RegisterForm - musisz w dowolny sposób wyrenderować formularz rejestracji, który onSubmit będzie wykonywał 
@@ -51,6 +52,10 @@ class LoginForm extends Component {
         this.props.history.push("/");
       })
       .catch(error => {
+        this.props.openModal({
+          title: "ERROR",
+          content: "couldn't login"
+        });
         console.error(error);
       });
   };
@@ -79,6 +84,6 @@ class LoginForm extends Component {
   }
 }
 
-const mapDispatchToProps = { logout: userActions.logout };
+const mapDispatchToProps = { logout: userActions.logout, openModal };
 
 export default connect(null, mapDispatchToProps)(withRouter(LoginForm));

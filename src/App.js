@@ -3,6 +3,7 @@ import { Component } from "react";
 import axios from "axios";
 import Home from "components/Home";
 import "./App.scss";
+import Modal from "components/shared/Modal";
 import Navbar from "./components/Navbar";
 import LoginForm from "components/LoginForm";
 import RegistrationForm from "components/RegistrationForm";
@@ -37,6 +38,7 @@ class App extends Component {
             <Route path="/register" component={RegistrationForm} />
             <Route path="/" component={withAuth(Home)} />
           </Switch>
+          <Modal />
         </div>
       </Router>
     );

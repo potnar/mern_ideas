@@ -31,7 +31,6 @@ class CategoryContent extends React.Component {
       .get({ token: this.props.token, category })
       .then(ideas => {
         ideas.forEach(idea => {
-          console.log("constructor ", idea);
           this[this.getRefId(idea._id)] = React.createRef();
         });
         this.setState({ ideas });
@@ -67,11 +66,11 @@ class CategoryContent extends React.Component {
   render() {
     const { ideas } = this.state;
     this.state.ideas.forEach(idea => {
-      // console.log(idea.comments);
-      console.log("ref = ", this[idea._id + " comment"]);
+      // // console.log(idea.comments);
+      // console.log("ref = ", this[idea._id + " comment"]);
     });
 
-    console.log("render ideas = ", ideas);
+    // console.log("render ideas = ", ideas);
     return (
       <div className="category-content">
         <div className="ideas-list">

@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import StickyNoteCategory from "./StickyNote/StickyNoteCategory";
 import categoryService from "services/categoryService";
 import userService from "services/userService";
+import userActions from "store/actions/userActions";
+import { openModal } from "store/actions/modalActions";
 
 class StickyNoteList extends React.Component {
   /*
@@ -66,7 +68,13 @@ class StickyNoteList extends React.Component {
     categoryService
       .put({ category, userId, token: this.props.user.token })
       .then(res => this.getNoteList(userId))
-      .catch(err => console.error(err));
+      .catch(err => {
+        this.props.openModal({
+          title: "ERROR",
+          content: "couldn't add category"
+        });
+        console.error(err);
+      });
   };
 
   render() {
@@ -99,4 +107,6 @@ const mapStateToProps = state => {
   return { user: state.userReducer.user };
 };
 
-export default connect(mapStateToProps)(StickyNoteList);
+const mapDispatchToProps = { openModal };
+
+export default connect(mapStateToProps, mapDispatchToProps)(StickyNoteList);

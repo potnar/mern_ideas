@@ -1,5 +1,6 @@
 $colors: (
   mustard: #af9459,
+  yellow-type: #d4991a,
   oil_dark: #19647e,
   oil_dark_nav: #12485a,
   oil_light: #119da4,
@@ -9,6 +10,7 @@ $colors: (
 );
 //
 $dark_grey: map-get($colors, dark_grey);
+$yellow-type: map-get($colors, yellow-type);
 $mustard: map-get($colors, mustard);
 $oil_light: map-get($colors, oil_light);
 $oil_dark: map-get($colors, oil_dark);
@@ -23,4 +25,5 @@ $gradient_light: map-get($colors, oil_light);
   oil_darkColor: $oil_light;
   gradient_lightColor: $oil_light;
   gradient_darkColor: $oil_light;
+  yel: $yellow-type;
 }

@@ -1,3 +1,6 @@
+@import "../../../shared/styles/colors";
+@import "../../../shared/styles/border";
+
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
@@ -13,6 +16,7 @@
 /* Modal Content/Box */
 .modal-content {
   background-color: #fefefe;
+  border-radius: $border_radius_sticker;
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;

@@ -7,6 +7,9 @@ $border_radius_sticker_title: map-get(
   $borders-radius-sizes,
   border_radius_sticker_title
 );
+$border_radius_sticker: map-get($borders-radius-sizes, border_radius_sticker);
+
 :export {
   borders-radius-sizes: $border_radius_sticker_title;
+  borders-radius-sizes: $border_radius_sticker;
 }

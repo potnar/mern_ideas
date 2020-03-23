@@ -1,7 +1,14 @@
 $font-sizes: (
   main: 16px
 );
+$font-types: (
+  main-type: Comic Sans MS
+);
 $main: map-get($font-sizes, main);
+
+$main-type: map-get($font-types, main-type);
+
 :export {
   mainFont: $main;
+  mainType: $main-type;
 }

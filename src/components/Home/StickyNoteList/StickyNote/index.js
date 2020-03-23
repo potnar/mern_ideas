@@ -12,7 +12,7 @@ track your components name
 
 function getFormattedName(note) {
   if (note && note.surname && note.name) return `${note.name} ${note.surname}`;
-  return "";
+  return "siema";
 }
 
 const StickyNote = ({

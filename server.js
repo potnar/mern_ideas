@@ -38,7 +38,7 @@ const corsOptions = {
 };
 
 // //użycie biblioteki cors aby pozwolić na zapytania pomiędzy różnymi hostami
-app.use(cors(corsOptions)); //(corsOptions));
+app.use(cors()); //(corsOptions));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json

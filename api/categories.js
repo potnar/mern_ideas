@@ -10,7 +10,7 @@ function get(req, res) {
       if (err) {
         console.error(err);
         errors.category = "couldn't get categories list";
-        res.status(404).json({ errors });
+        return res.status(404).json({ errors });
       }
       res.json(category);
     });
@@ -20,7 +20,7 @@ function get(req, res) {
       if (err) {
         console.error(err);
         errors.category = "couldn't get categories list";
-        res.status(404).json({ errors });
+        return res.status(404).json({ errors });
       }
       res.json(category);
     });
@@ -30,7 +30,7 @@ function get(req, res) {
       if (err) {
         console.error(err);
         errors.category = "couldn't get categories list";
-        res.status(404).json({ errors });
+        return res.status(404).json({ errors });
       }
       res.json(category);
     });
@@ -47,7 +47,7 @@ function post(req, res) {
     if (err) {
       console.error(err);
       errors.category = "couldn't update category";
-      res.status(404).json({ errors });
+      return res.status(404).json({ errors });
     }
     res.json(category);
   });
@@ -60,10 +60,11 @@ function put(req, res) {
 
   const newCategory = new Category({ name, author });
   newCategory.save((err, category) => {
-    if (!category) {
+    if (!category || err) {
       errors.category = "couldn't create category";
-      res.status(404).json({ errors });
+      return res.status(404).json({ errors });
     }
+
     User.findByIdAndUpdate(
       author,
       { $push: { categories: category._id } },
@@ -71,14 +72,8 @@ function put(req, res) {
         if (userError) {
           console.error(userError);
           errors.user = "couldn't update user categories";
-          res.status(404).json({ errors });
+          return res.status(404).json({ errors });
         }
-        if (err) {
-          console.error(err);
-          errors.category = "couldn't create category";
-          res.status(404).json({ errors });
-        }
-        console.log("category = ", category);
         res.json(category);
       }
     );
@@ -93,7 +88,7 @@ function del(req, res) {
     if (err) {
       console.error(err);
       errors.category = "couldn't delete category";
-      res.status(404).json({ errors });
+      return res.status(404).json({ errors });
     }
     res.json(result);
   });

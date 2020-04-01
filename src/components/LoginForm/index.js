@@ -62,24 +62,32 @@ class LoginForm extends Component {
 
   render() {
     return (
-      <form
-        className="login-form"
-        onSubmit={this.handleSubmit}
-        onKeyDown={e => e.keyCode === 13 && this.handleSubmit(e)}
-      >
-        <input
-          placeholder="Username"
-          onChange={this.handleUsernameChange}
-          value={this.state.username}
-        ></input>
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={this.handlePasswordChange}
-          value={this.state.password}
-        ></input>
-        <button type="submit">Sign In</button>
-      </form>
+      <div className="container__login-form">
+        <form
+          className="login-form"
+          onSubmit={this.handleSubmit}
+          onKeyDown={e => e.keyCode === 13 && this.handleSubmit(e)}
+        >
+          <div className="input-boxes">
+            <input
+              className="login-field"
+              placeholder="Username"
+              onChange={this.handleUsernameChange}
+              value={this.state.username}
+            ></input>
+          </div>
+          <div className="input-boxes">
+            <input
+              className="login-field"
+              type="password"
+              placeholder="Password"
+              onChange={this.handlePasswordChange}
+              value={this.state.password}
+            ></input>
+          </div>
+          <button type="submit">Sign In</button>
+        </form>
+      </div>
     );
   }
 }

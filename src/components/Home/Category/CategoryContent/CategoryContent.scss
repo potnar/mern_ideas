@@ -1,0 +1,19 @@
+@import "../../../../shared/styles/colors";
+
+.add-idea--content {
+  display: flex;
+}
+.idea-row {
+  width: 200px;
+  display: flex;
+  .spacer {
+    flex-grow: 1;
+  }
+}
+.icons {
+  color: $dark_grey;
+  cursor: pointer;
+}
+.icons:hover {
+  color: white;
+}

@@ -1,0 +1,13 @@
+@import "../../../shared/styles/colors";
+@import "../../../shared/styles/border";
+
+.btn--register {
+  background: $mustard;
+  border: none;
+  border-radius: $border_radius_sticker_title;
+  box-shadow: 0px 0px 10px black;
+  padding: 5px 10px;
+  color: #1f2041;
+  font-weight: bold;
+  cursor: pointer;
+}

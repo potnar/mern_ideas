@@ -1,0 +1,52 @@
+@import "../../shared/styles/colors";
+@import "../../shared/styles/border";
+@import "../Navbar/Navbar";
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - #{$navbar-height});
+  input::placeholder {
+    color: white;
+  }
+  .input-boxes {
+    width: 30%;
+    border-bottom: 1px solid $dark_grey;
+    input {
+      color: white;
+      background-color: rgba(0, 0, 0, 0);
+      outline: none;
+      border: none;
+
+      margin-top: 10px;
+      height: 20px;
+      width: 100%;
+    }
+  }
+  button {
+    border-radius: $border_radius_sticker_title;
+    margin-top: 10px;
+    color: white;
+    border: none;
+    outline: none;
+    width: 30%;
+    background: $mustard;
+  }
+}
+
+*:-webkit-autofill,
+*:-webkit-autofill:hover,
+*:-webkit-autofill:focus,
+*:-webkit-autofill:active {
+  /* use animation hack, if you have hard styled input */
+  transition: all 5000s ease-in-out 0s;
+  transition-property: background-color, color;
+  /* if input has one color, and didn't have bg-image use shadow */
+  -webkit-box-shadow: 0 0 0 1000px none inset;
+  /* text color */
+  -webkit-text-fill-color: none;
+  /* font weigth */
+  font-weight: 300 !important;
+}

@@ -1,5 +1,5 @@
 # MERN IDEAS
+
 ## Manage ideas
 
-![](assets/ui.png)
-
+![](src/assets/ui.png)

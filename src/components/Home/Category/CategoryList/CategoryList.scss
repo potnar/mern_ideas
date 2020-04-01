@@ -1,0 +1,8 @@
+@import "../../../Navbar/Navbar";
+
+.category-list {
+  height: calc(100vh - #{$navbar-height});
+  padding-left: 10px;
+  width: 20%;
+  overflow: auto;
+}

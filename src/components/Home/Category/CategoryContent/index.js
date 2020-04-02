@@ -13,7 +13,7 @@ import { IconContext } from "react-icons";
 class CategoryContent extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { ideas: [] };
+    this.state = { ideas: [], active: false };
     props.category &&
       props.category._id &&
       this.getIdeasList(props.category._id).then(ideas => {
@@ -51,6 +51,10 @@ class CategoryContent extends React.Component {
       });
   };
 
+  handleComment = () => {
+    this.setState(prevState => ({ active: !prevState.active }));
+  };
+
   handleSubmitComment = ideaId => {
     const { author } = this.props;
     const refId = this.getRefId(ideaId);
@@ -86,7 +90,10 @@ class CategoryContent extends React.Component {
                   <div className="idea">{idea.name}</div>
                   <div className="spacer"></div>
                   <IconContext.Provider value={{ className: "icons" }}>
-                    <FiMessageSquare size="1.6rem" />
+                    <FiMessageSquare
+                      size="1.6rem"
+                      onClick={this.handleComment}
+                    />
                     <MdDeleteForever
                       size="1.6rem"
                       className="del-button"
@@ -96,29 +103,39 @@ class CategoryContent extends React.Component {
                     />
                   </IconContext.Provider>
                 </div>
-                {idea.comments.map(comment => (
+                <div
+                  className={
+                    this.state.active
+                      ? "active_comment-container"
+                      : "comment-container"
+                  }
+                >
+                  {idea.comments.map(comment => (
+                    <ul>
+                      <li>
+                        <div className="comment" key={uid(comment)}>
+                          {comment.content}
+                        </div>
+                      </li>
+                    </ul>
+                  ))}
                   <ul>
                     <li>
-                      <div className="comment" key={uid(comment)}>
-                        {comment.content}
-                      </div>
+                      <textarea
+                        ref={this[this.getRefId(idea._id)]}
+                        placeholder="Add comment..."
+                        onKeyDown={e =>
+                          e.keyCode === 13 && this.handleSubmitComment(idea._id)
+                        }
+                      ></textarea>
+                      <button
+                        onClick={() => this.handleSubmitComment(idea._id)}
+                      >
+                        dodaj
+                      </button>
                     </li>
                   </ul>
-                ))}
-                <ul>
-                  <li>
-                    <textarea
-                      ref={this[this.getRefId(idea._id)]}
-                      placeholder="Add comment..."
-                      onKeyDown={e =>
-                        e.keyCode === 13 && this.handleSubmitComment(idea._id)
-                      }
-                    ></textarea>
-                    <button onClick={() => this.handleSubmitComment(idea._id)}>
-                      dodaj
-                    </button>
-                  </li>
-                </ul>
+                </div>
               </ul>
             </div>
           ))}

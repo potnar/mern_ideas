@@ -1,11 +1,20 @@
 @import "../../../../shared/styles/colors";
-
+.category-content {
+  margin-left: 20%;
+}
 .add-idea--content {
   display: flex;
 }
 .idea-row {
+  color: whitesmoke;
   width: 200px;
+  border-bottom: 2px solid $gradient-dark;
   display: flex;
+  margin-bottom: 10px;
+  padding: 5px 0;
+  .idea {
+    margin-left: 10px;
+  }
   .spacer {
     flex-grow: 1;
   }
@@ -16,4 +25,13 @@
 }
 .icons:hover {
   color: white;
+}
+li {
+  list-style: none;
+}
+.comment {
+  margin-left: 10px;
+  color: wheat;
+  border-bottom: 2px solid grey;
+  margin-bottom: 10px;
 }

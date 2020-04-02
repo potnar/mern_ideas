@@ -7,6 +7,7 @@ import commentService from "services/commentService";
 import "./CategoryContent.scss";
 import { FiMessageSquare } from "react-icons/fi";
 import { MdDeleteForever } from "react-icons/md";
+import { FaRegLightbulb } from "react-icons/fa";
 import { IconContext } from "react-icons";
 
 class CategoryContent extends React.Component {
@@ -64,6 +65,7 @@ class CategoryContent extends React.Component {
   getRefId = id => `${id} comment`;
 
   render() {
+    console.log(this.props.category.isLoggedUser);
     const { ideas } = this.state;
     this.state.ideas.forEach(idea => {
       // // console.log(idea.comments);
@@ -76,45 +78,61 @@ class CategoryContent extends React.Component {
         <div className="ideas-list">
           {ideas.map(idea => (
             <div className="idea-section" key={uid(idea)}>
-              <div className="idea-row">
-                <div className="idea">{idea.name}</div>
-                <div className="spacer"></div>
-                <div></div>
-                <IconContext.Provider value={{ className: "icons" }}>
-                  <FiMessageSquare size="1.6rem" />
-                  <MdDeleteForever
-                    size="1.6rem"
-                    className="del-button"
-                    onClick={() => {
-                      this.handleDeleteIdea(idea._id);
-                    }}
-                  />
-                </IconContext.Provider>
-              </div>
-              {idea.comments.map(comment => (
-                <div key={uid(comment)}>{comment.content}</div>
-              ))}
-              <textarea
-                ref={this[this.getRefId(idea._id)]}
-                placeholder="Add comment..."
-                onKeyDown={e =>
-                  e.keyCode === 13 && this.handleSubmitComment(idea._id)
-                }
-              ></textarea>
-              <button onClick={() => this.handleSubmitComment(idea._id)}>
-                dodaj
-              </button>
+              <ul>
+                <div className="idea-row">
+                  <IconContext.Provider value={{ className: "bulb" }}>
+                    <FaRegLightbulb size="1.6rem" />
+                  </IconContext.Provider>
+                  <div className="idea">{idea.name}</div>
+                  <div className="spacer"></div>
+                  <IconContext.Provider value={{ className: "icons" }}>
+                    <FiMessageSquare size="1.6rem" />
+                    <MdDeleteForever
+                      size="1.6rem"
+                      className="del-button"
+                      onClick={() => {
+                        this.handleDeleteIdea(idea._id);
+                      }}
+                    />
+                  </IconContext.Provider>
+                </div>
+                {idea.comments.map(comment => (
+                  <ul>
+                    <li>
+                      <div className="comment" key={uid(comment)}>
+                        {comment.content}
+                      </div>
+                    </li>
+                  </ul>
+                ))}
+                <ul>
+                  <li>
+                    <textarea
+                      ref={this[this.getRefId(idea._id)]}
+                      placeholder="Add comment..."
+                      onKeyDown={e =>
+                        e.keyCode === 13 && this.handleSubmitComment(idea._id)
+                      }
+                    ></textarea>
+                    <button onClick={() => this.handleSubmitComment(idea._id)}>
+                      dodaj
+                    </button>
+                  </li>
+                </ul>
+              </ul>
             </div>
           ))}
         </div>
-        <div className="add-idea--content">
-          {this.props.category.isLoggedUser && (
-            <ButtonAdd
-              categoryId={this.props.category._id}
-              onSubmitIdea={() => this.getIdeasList(this.props.category._id)}
-            />
-          )}
-        </div>
+        <ul>
+          <div className="add-idea--content">
+            {this.props.category.isLoggedUser && (
+              <ButtonAdd
+                categoryId={this.props.category._id}
+                onSubmitIdea={() => this.getIdeasList(this.props.category._id)}
+              />
+            )}
+          </div>
+        </ul>
       </div>
     );
   }

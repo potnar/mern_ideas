@@ -69,6 +69,7 @@ class LoginForm extends Component {
           onKeyDown={e => e.keyCode === 13 && this.handleSubmit(e)}
         >
           <div className="input-boxes">
+            <h1>Login</h1>
             <input
               className="login-field"
               placeholder="Username"

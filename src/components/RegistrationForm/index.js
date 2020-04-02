@@ -57,34 +57,45 @@ class RegistrationForm extends Component {
 
   render() {
     return (
-      <form
-        className="registration-form"
-        onSubmit={this.handleSubmit}
-        onKeyDown={e => e.keyCode === 13 && this.handleSubmit(e)}
-      >
-        <input
-          placeholder="Username..."
-          onChange={this.handleUsernameChange}
-          value={this.state.username}
-        ></input>
-        <input
-          type="password"
-          placeholder="Password..."
-          onChange={this.handlePasswordChange}
-          value={this.state.password}
-        ></input>
-        <input
-          placeholder="Name..."
-          onChange={this.handleNameChange}
-          value={this.state.name}
-        ></input>
-        <input
-          placeholder="Surname..."
-          onChange={this.handleSurnameChange}
-          value={this.state.surname}
-        ></input>
-        <button type="submit">Register</button>
-      </form>
+      <div className="container__registration-form">
+        <form
+          className="registration-form"
+          onSubmit={this.handleSubmit}
+          onKeyDown={e => e.keyCode === 13 && this.handleSubmit(e)}
+        >
+          <div className="input-boxes">
+            <h1>Register</h1>
+            <input
+              placeholder="Username..."
+              onChange={this.handleUsernameChange}
+              value={this.state.username}
+            ></input>
+          </div>
+          <div className="input-boxes">
+            <input
+              type="password"
+              placeholder="Password..."
+              onChange={this.handlePasswordChange}
+              value={this.state.password}
+            ></input>
+          </div>
+          <div className="input-boxes">
+            <input
+              placeholder="Name..."
+              onChange={this.handleNameChange}
+              value={this.state.name}
+            ></input>
+          </div>
+          <div className="input-boxes">
+            <input
+              placeholder="Surname..."
+              onChange={this.handleSurnameChange}
+              value={this.state.surname}
+            ></input>
+          </div>
+          <button type="submit">Register</button>
+        </form>
+      </div>
     );
   }
 }

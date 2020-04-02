@@ -65,7 +65,6 @@ class CategoryContent extends React.Component {
   getRefId = id => `${id} comment`;
 
   render() {
-    console.log(this.props.category.isLoggedUser);
     const { ideas } = this.state;
     this.state.ideas.forEach(idea => {
       // // console.log(idea.comments);

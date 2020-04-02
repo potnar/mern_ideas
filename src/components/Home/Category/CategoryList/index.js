@@ -1,23 +1,39 @@
 import React from "react";
+import { connect } from 'react-redux';
 import { uid } from "react-uid";
 import StickyNoteCategory from "../../StickyNoteList/StickyNote/StickyNoteCategory";
 import "./CategoryList.scss";
 
-const CategoryList = ({ pickedCategoryId, categories, onCategoryChange }) => {
+const CategoryList = ({
+  pickedCategoryId,
+  categories,
+  onCategoryChange,
+  user
+}) => {
   return (
     <div className="container-list">
       <div className="category-list">
-        {categories.map(category => (
-          <StickyNoteCategory
-            key={uid(category)}
-            category={category}
-            onCategoryChange={category => onCategoryChange(category)}
-            active={pickedCategoryId === category._id}
-          />
-        ))}
+        {categories.map(category => {
+          const isLoggedUser = category.author === user._id;
+          return (
+            <StickyNoteCategory
+              key={uid(category)}
+              category={category}
+              onCategoryChange={category => {
+                onCategoryChange(category, isLoggedUser)
+              }}
+              active={pickedCategoryId === category._id}
+            />
+          );
+        })}
       </div>
     </div>
   );
 };
 
-export default CategoryList;
+
+const mapStateToProps = state => {
+  return { user: state.userReducer.user };
+};
+
+export default connect(mapStateToProps)(CategoryList);

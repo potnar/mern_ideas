@@ -89,15 +89,18 @@ class StickyNoteList extends React.Component {
         the package
       */}
         {noteList &&
-          noteList.map((note, index) => (
-            <StickyNote
-              key={uid(index)}
-              note={note}
-              onCategoryChange={onCategoryChange}
-              onAddCategory={this.handleAddCategory}
-              isLoggedUser={index === 0}
-            />
-          ))}
+          noteList.map((note, index) => {
+            const isLoggedUser = note._id === this.props.user._id;
+            return (
+              <StickyNote
+                key={uid(index)}
+                note={note}
+                onCategoryChange={onCategoryChange}
+                onAddCategory={this.handleAddCategory}
+                isLoggedUser={isLoggedUser} />
+            );
+          })
+        }
       </div>
     );
   }

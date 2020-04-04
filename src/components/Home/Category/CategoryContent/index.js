@@ -5,10 +5,6 @@ import ButtonAdd from "./ButtonAdd";
 import ideaService from "services/ideaService";
 import commentService from "services/commentService";
 import "./CategoryContent.scss";
-import { FiMessageSquare } from "react-icons/fi";
-import { MdDeleteForever } from "react-icons/md";
-import { FaRegLightbulb } from "react-icons/fa";
-import { IconContext } from "react-icons";
 import IdeaContainer from "./IdeaContainer";
 
 class CategoryContent extends React.Component {
@@ -78,7 +74,9 @@ class CategoryContent extends React.Component {
             <IdeaContainer
               idea={idea}
               key={uid(idea)}
-              onComment={this.handleSubmitComment} />
+              onComment={this.handleSubmitComment}
+              onDelete={this.handleDeleteIdea}
+            />
           ))}
         </div>
         <ul>

@@ -1,13 +1,13 @@
-import React from 'react'
-import CommentContainer from './CommentContainer';
+import React from "react";
+import CommentContainer from "./CommentContainer";
 import { FiMessageSquare } from "react-icons/fi";
 import { MdDeleteForever } from "react-icons/md";
 import { FaRegLightbulb } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
 import { IconContext } from "react-icons";
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
-const IdeaContainer = (props) => {
+const IdeaContainer = props => {
   const commentContainerRef = React.useRef(null);
   const [ contentHeight, setContentHeight ] = React.useState(null);
   const [
@@ -18,7 +18,7 @@ const IdeaContainer = (props) => {
   React.useEffect(() => {
     const { height } = commentContainerRef.current.getBoundingClientRect();
     setContentHeight(`${Math.ceil(height)}px`);
-  }, [ commentContainerRef ]);
+  }, [commentContainerRef]);
 
   const { idea } = props;
   return (
@@ -34,24 +34,29 @@ const IdeaContainer = (props) => {
             {isCommentsVisible ? (
               <MdMessage
                 size="1.6rem"
-                onClick={() => setCommentsVisible(!isCommentsVisible)} />
+                onClick={() => setCommentsVisible(!isCommentsVisible)}
+              />
             ) : (
               <FiMessageSquare
                 size="1.6rem"
-                onClick={() => setCommentsVisible(!isCommentsVisible)} />
+                onClick={() => setCommentsVisible(!isCommentsVisible)}
+              />
             )}
             <MdDeleteForever
               size="1.6rem"
               className="del-button"
               onClick={() => {
-                this.handleDeleteIdea(idea._id);
+                props.onDelete(idea._id);
               }}
             />
           </IconContext.Provider>
         </div>
-        <div className={`comment-container__wrapper ${
-          !isCommentsVisible ? '--hidden' : ''
-        }`} style={{ '--contentHeight': contentHeight || '0px' }}>
+        <div
+          className={`comment-container__wrapper ${
+            !isCommentsVisible ? "--hidden" : ""
+          }`}
+          style={{ "--contentHeight": contentHeight }}
+        >
           <CommentContainer
             idea={idea}
             clickHandler={props.onComment}
@@ -62,7 +67,7 @@ const IdeaContainer = (props) => {
         </div>
       </ul>
     </div>
-  )
-}
+  );
+};
 
 export default IdeaContainer;

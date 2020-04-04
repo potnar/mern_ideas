@@ -9,6 +9,7 @@ import { FiMessageSquare } from "react-icons/fi";
 import { MdDeleteForever } from "react-icons/md";
 import { FaRegLightbulb } from "react-icons/fa";
 import { IconContext } from "react-icons";
+import CommentContainer from "./CommentContainer";
 
 class CategoryContent extends React.Component {
   constructor(props) {
@@ -31,9 +32,9 @@ class CategoryContent extends React.Component {
     return ideaService
       .get({ token: this.props.token, category })
       .then(ideas => {
-        ideas.forEach(idea => {
-          this[this.getRefId(idea._id)] = React.createRef();
-        });
+        // ideas.forEach(idea => {
+        //   this[this.getRefId(idea._id)] = React.createRef();
+        // });
         this.setState({ ideas });
         return ideas;
       });
@@ -51,14 +52,8 @@ class CategoryContent extends React.Component {
       });
   };
 
-  handleComment = () => {
-    this.setState(prevState => ({ active: !prevState.active }));
-  };
-
-  handleSubmitComment = ideaId => {
+  handleSubmitComment = (ideaId, content = "ERROREK") => {
     const { author } = this.props;
-    const refId = this.getRefId(ideaId);
-    const content = this[refId] ? this[refId].current.value : "ERROR";
     commentService
       .put({ content, author, token: this.props.token, idea: ideaId })
       .then(result => {
@@ -66,7 +61,7 @@ class CategoryContent extends React.Component {
       });
   };
 
-  getRefId = id => `${id} comment`;
+  // getRefId = id => `${id} comment`;
 
   render() {
     const { ideas } = this.state;
@@ -89,10 +84,7 @@ class CategoryContent extends React.Component {
                   <div className="idea">{idea.name}</div>
                   <div className="spacer"></div>
                   <IconContext.Provider value={{ className: "icons" }}>
-                    <FiMessageSquare
-                      size="1.6rem"
-                      onClick={this.handleComment}
-                    />
+                    <FiMessageSquare size="1.6rem" />
                     <MdDeleteForever
                       size="1.6rem"
                       className="del-button"
@@ -102,39 +94,10 @@ class CategoryContent extends React.Component {
                     />
                   </IconContext.Provider>
                 </div>
-                <div
-                  className={
-                    this.state.active
-                      ? "active_comment-container"
-                      : "comment-container"
-                  }
-                >
-                  {idea.comments.map(comment => (
-                    <ul>
-                      <li>
-                        <div className="comment" key={uid(comment)}>
-                          {comment.content}
-                        </div>
-                      </li>
-                    </ul>
-                  ))}
-                  <ul>
-                    <li>
-                      <textarea
-                        ref={this[this.getRefId(idea._id)]}
-                        placeholder="Add comment..."
-                        onKeyDown={e =>
-                          e.keyCode === 13 && this.handleSubmitComment(idea._id)
-                        }
-                      ></textarea>
-                      <button
-                        onClick={() => this.handleSubmitComment(idea._id)}
-                      >
-                        dodaj
-                      </button>
-                    </li>
-                  </ul>
-                </div>
+                <CommentContainer
+                  idea={idea}
+                  clickHandler={this.handleComment}
+                />
               </ul>
             </div>
           ))}

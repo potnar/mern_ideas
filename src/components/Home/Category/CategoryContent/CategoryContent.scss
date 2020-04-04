@@ -1,4 +1,15 @@
 @import "../../../../shared/styles/colors";
+.comment-container__wrapper {
+  display: flex;
+  .comment-container {
+    flex-basis: 200px;
+    flex-grow: 1;
+    &.--hidden {
+      flex-grow: 0;
+    }
+  }
+}
+
 .category-content {
   margin-left: 20%;
 }

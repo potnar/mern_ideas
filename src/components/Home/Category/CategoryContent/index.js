@@ -9,7 +9,7 @@ import { FiMessageSquare } from "react-icons/fi";
 import { MdDeleteForever } from "react-icons/md";
 import { FaRegLightbulb } from "react-icons/fa";
 import { IconContext } from "react-icons";
-import CommentContainer from "./CommentContainer";
+import IdeaContainer from "./IdeaContainer";
 
 class CategoryContent extends React.Component {
   constructor(props) {
@@ -75,31 +75,10 @@ class CategoryContent extends React.Component {
       <div className="category-content">
         <div className="ideas-list">
           {ideas.map(idea => (
-            <div className="idea-section" key={uid(idea)}>
-              <ul>
-                <div className="idea-row">
-                  <IconContext.Provider value={{ className: "bulb" }}>
-                    <FaRegLightbulb size="1.6rem" />
-                  </IconContext.Provider>
-                  <div className="idea">{idea.name}</div>
-                  <div className="spacer"></div>
-                  <IconContext.Provider value={{ className: "icons" }}>
-                    <FiMessageSquare size="1.6rem" />
-                    <MdDeleteForever
-                      size="1.6rem"
-                      className="del-button"
-                      onClick={() => {
-                        this.handleDeleteIdea(idea._id);
-                      }}
-                    />
-                  </IconContext.Provider>
-                </div>
-                <CommentContainer
-                  idea={idea}
-                  clickHandler={this.handleComment}
-                />
-              </ul>
-            </div>
+            <IdeaContainer
+              idea={idea}
+              key={uid(idea)}
+              onComment={this.handleSubmitComment} />
           ))}
         </div>
         <ul>

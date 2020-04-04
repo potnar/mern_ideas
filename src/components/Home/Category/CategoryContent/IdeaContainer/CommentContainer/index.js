@@ -9,10 +9,11 @@ const CommentContainer = React.forwardRef((props, ref) => {
   if (!comments) {
     return null;
   }
+  console.log(props.height)
   return (
-    <ul ref={ref}>
+    <ul ref={ref} style={{ height: props.height || 'auto' }}>
       {comments.map(comment => (
-        <li>
+        <li key={uid(comment)}>
           <div className="comment" key={uid(comment)}>
             {comment.content}
           </div>

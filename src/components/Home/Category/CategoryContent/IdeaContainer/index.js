@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 
 const IdeaContainer = (props) => {
   const commentContainerRef = React.useRef(null);
-  const [ contentHeight, setContentHeight ] = React.useState('0px');
+  const [ contentHeight, setContentHeight ] = React.useState(null);
   const [
     isCommentsVisible,
     setCommentsVisible
@@ -51,12 +51,13 @@ const IdeaContainer = (props) => {
         </div>
         <div className={`comment-container__wrapper ${
           !isCommentsVisible ? '--hidden' : ''
-        }`} style={{ '--contentHeight': contentHeight }}>
+        }`} style={{ '--contentHeight': contentHeight || '0px' }}>
           <CommentContainer
             idea={idea}
             clickHandler={props.onComment}
             ref={commentContainerRef}
             onComment={props.onComment}
+            height={contentHeight}
           />
         </div>
       </ul>

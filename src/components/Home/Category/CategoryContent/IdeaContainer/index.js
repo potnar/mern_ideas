@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CommentContainer from "./CommentContainer";
 import { FiMessageSquare } from "react-icons/fi";
 import { MdDeleteForever } from "react-icons/md";
@@ -7,20 +7,36 @@ import { MdMessage } from "react-icons/md";
 import { IconContext } from "react-icons";
 import PropTypes from "prop-types";
 
-const IdeaContainer = props => {
+const IdeaContainer = (props) => {
+  const { idea } = props;
   const commentContainerRef = React.useRef(null);
-  const [ contentHeight, setContentHeight ] = React.useState(null);
-  const [
-    isCommentsVisible,
-    setCommentsVisible
-  ] = React.useState(false);
+  const [contentHeight, setContentHeight] = useState(null);
+
+  const handleCloseIdea = (id) => {
+    if (typeof props.onCloseIdea === "function") {
+      props.onCloseIdea(id);
+    } else {
+      console.error(
+        "function handleCloseIdea: props.onCloseIdea wasn't supplied"
+      );
+    }
+  };
+
+  const handleOpenIdea = (id) => {
+    if (typeof props.onOpenIdea === "function") {
+      props.onOpenIdea(id);
+    } else {
+      console.error(
+        "function handleOpenIdea: props.onOpenIdea wasn't supplied"
+      );
+    }
+  };
 
   React.useEffect(() => {
     const { height } = commentContainerRef.current.getBoundingClientRect();
     setContentHeight(`${Math.ceil(height)}px`);
   }, [commentContainerRef]);
 
-  const { idea } = props;
   return (
     <div className="idea-section">
       <ul>
@@ -31,15 +47,15 @@ const IdeaContainer = props => {
           <div className="idea">{idea.name}</div>
           <div className="spacer"></div>
           <IconContext.Provider value={{ className: "icons" }}>
-            {isCommentsVisible ? (
+            {props.isCommentsVisible ? (
               <MdMessage
                 size="1.6rem"
-                onClick={() => setCommentsVisible(!isCommentsVisible)}
+                onClick={() => handleCloseIdea(idea._id)}
               />
             ) : (
               <FiMessageSquare
                 size="1.6rem"
-                onClick={() => setCommentsVisible(!isCommentsVisible)}
+                onClick={() => handleOpenIdea(idea._id)}
               />
             )}
             <MdDeleteForever
@@ -53,7 +69,7 @@ const IdeaContainer = props => {
         </div>
         <div
           className={`comment-container__wrapper ${
-            !isCommentsVisible ? "--hidden" : ""
+            !props.isCommentsVisible ? "--hidden" : ""
           }`}
           style={{ "--contentHeight": contentHeight }}
         >

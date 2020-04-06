@@ -10,10 +10,10 @@ import IdeaContainer from "./IdeaContainer";
 class CategoryContent extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { ideas: [], active: false };
+    this.state = { ideas: [], active: false, openIdeas: [] };
     props.category &&
       props.category._id &&
-      this.getIdeasList(props.category._id).then(ideas => {
+      this.getIdeasList(props.category._id).then((ideas) => {
         this.setState({ ideas });
       });
   }
@@ -24,10 +24,10 @@ class CategoryContent extends React.Component {
     }
   }
 
-  getIdeasList = category => {
+  getIdeasList = (category) => {
     return ideaService
       .get({ token: this.props.token, category })
-      .then(ideas => {
+      .then((ideas) => {
         // ideas.forEach(idea => {
         //   this[this.getRefId(idea._id)] = React.createRef();
         // });
@@ -36,12 +36,28 @@ class CategoryContent extends React.Component {
       });
   };
 
-  handleDeleteIdea = id => {
+  handleCloseIdea = (id) => {
+    this.setState((prevState) => {
+      const openIdeas = [...prevState.openIdeas];
+      openIdeas.splice(openIdeas.indexOf(id));
+      return { openIdeas };
+    });
+  };
+
+  handleOpenIdea = (id) => {
+    this.setState((prevState) => {
+      const openIdeas = [...prevState.openIdeas];
+      openIdeas.push(id);
+      return { openIdeas };
+    });
+  };
+
+  handleDeleteIdea = (id) => {
     ideaService
       .del({
         category: this.props.category._id,
         id,
-        token: this.props.token
+        token: this.props.token,
       })
       .then(() => {
         this.getIdeasList(this.props.category._id);
@@ -52,7 +68,7 @@ class CategoryContent extends React.Component {
     const { author } = this.props;
     commentService
       .put({ content, author, token: this.props.token, idea: ideaId })
-      .then(result => {
+      .then((result) => {
         this.getIdeasList(this.props.category._id);
       });
   };
@@ -61,21 +77,19 @@ class CategoryContent extends React.Component {
 
   render() {
     const { ideas } = this.state;
-    this.state.ideas.forEach(idea => {
-      // // console.log(idea.comments);
-      // console.log("ref = ", this[idea._id + " comment"]);
-    });
 
-    // console.log("render ideas = ", ideas);
     return (
       <div className="category-content">
         <div className="ideas-list">
-          {ideas.map(idea => (
+          {ideas.map((idea) => (
             <IdeaContainer
               idea={idea}
               key={uid(idea)}
               onComment={this.handleSubmitComment}
               onDelete={this.handleDeleteIdea}
+              onCloseIdea={this.handleCloseIdea}
+              onOpenIdea={this.handleOpenIdea}
+              isCommentsVisible={this.state.openIdeas.includes(idea._id)}
             />
           ))}
         </div>
@@ -94,7 +108,7 @@ class CategoryContent extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { user } = state.userReducer;
   return { token: user && user.token, author: user && user._id };
 };

@@ -3,15 +3,14 @@ import { uid } from "react-uid";
 import "./CommentContainer.scss";
 
 const CommentContainer = React.forwardRef((props, ref) => {
-  const [ text, setText ] = React.useState('');
+  const [text, setText] = useState("");
   const { idea } = props;
   const { comments } = idea;
   if (!comments) {
     return null;
   }
-  console.log(props.height)
   return (
-    <ul ref={ref} style={{ height: props.height || 'auto' }}>
+    <ul ref={ref} style={{ height: props.height || "auto" }}>
       {comments.map(comment => (
         <li key={uid(comment)}>
           <div className="comment" key={uid(comment)}>
@@ -23,12 +22,9 @@ const CommentContainer = React.forwardRef((props, ref) => {
         <textarea
           placeholder="Add comment..."
           onChange={e => setText(e.target.value)}
-          onKeyDown={e => e.keyCode === 13 && props.onComment(
-            idea._id,
-            text
-          )}
+          onKeyDown={e => e.keyCode === 13 && props.onComment(idea._id, text)}
         ></textarea>
-      <button onClick={() => props.onComment(idea._id, text)}>dodaj</button>
+        <button onClick={() => props.onComment(idea._id, text)}>dodaj</button>
       </li>
     </ul>
   );

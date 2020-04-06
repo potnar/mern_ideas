@@ -3,6 +3,7 @@ import { uid } from "react-uid";
 import "./StickyNote.scss";
 import StickyNoteCategory from "./StickyNoteCategory";
 import StickyNoteInput from "./StickyNoteInput";
+import ScrollBar from "components/shared/ScrollBar";
 
 /*
 we write "const StickyNote = " instead of "export default () => {}"
@@ -19,29 +20,29 @@ const StickyNote = ({
   note,
   onAddCategory,
   isLoggedUser,
-  onCategoryChange
+  onCategoryChange,
 }) => {
   return (
     <div className="sticker">
       <div className="sticker__title">{getFormattedName(note)}</div>
       <div className="sticker__content">
-        <div>
+        <ScrollBar>
           <StickyNoteContent
             note={note}
             onCategoryChange={onCategoryChange}
             isLoggedUser={isLoggedUser}
           />
-        </div>
+        </ScrollBar>
       </div>
       {isLoggedUser && (
-        <StickyNoteInput onSubmit={value => onAddCategory(value)} />
+        <StickyNoteInput onSubmit={(value) => onAddCategory(value)} />
       )}
     </div>
   );
 };
 
 const StickyNoteContent = ({ note, onCategoryChange, isLoggedUser }) => {
-  const handleCategoryChange = category => {
+  const handleCategoryChange = (category) => {
     // const loggedUser = result.filter(user => user._id === userId)[0];
     // const noteList = [...result];
     // result.forEach((user, index) => {
@@ -56,7 +57,7 @@ const StickyNoteContent = ({ note, onCategoryChange, isLoggedUser }) => {
     onCategoryChange(
       {
         ...category,
-        categoriesList
+        categoriesList,
       },
       isLoggedUser
     );
@@ -70,11 +71,11 @@ const StickyNoteContent = ({ note, onCategoryChange, isLoggedUser }) => {
   } else {
     return (
       <div>
-        {note.categories.map(category => (
+        {note.categories.map((category) => (
           <StickyNoteCategory
             key={uid(category)}
             category={category}
-            onCategoryChange={category => handleCategoryChange(category)}
+            onCategoryChange={(category) => handleCategoryChange(category)}
           />
         ))}
       </div>

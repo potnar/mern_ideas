@@ -7,7 +7,7 @@ class Home extends React.Component {
   state = { category: null };
 
   handleCategoryChange = (category, isLoggedUser) => {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       const categoriesList =
         (prevState.category && prevState.category.categoriesList) ||
         category.categoriesList ||
@@ -17,10 +17,14 @@ class Home extends React.Component {
         category: {
           isLoggedUser,
           categoriesList,
-          ...category
-        }
+          ...category,
+        },
       };
     });
+  };
+
+  handleReturn = () => {
+    this.setState({ category: null });
   };
 
   //  DEPRECATED
@@ -43,6 +47,7 @@ class Home extends React.Component {
       <div>
         {category ? (
           <Category
+            onReturn={this.handleReturn}
             category={category}
             onCategoryChange={this.handleCategoryChange}
           />

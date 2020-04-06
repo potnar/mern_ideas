@@ -5,7 +5,7 @@ import "./Category.scss";
 
 class Category extends React.Component {
   render() {
-    const { onCategoryChange, category } = this.props;
+    const { onCategoryChange, category, onReturn } = this.props;
     if (!category) return null;
     return (
       <div className="category">
@@ -14,7 +14,7 @@ class Category extends React.Component {
           categories={category.categoriesList}
           onCategoryChange={onCategoryChange}
         />
-        <CategoryContent category={category} />
+        <CategoryContent category={category} onReturn={onReturn} />
       </div>
     );
   }

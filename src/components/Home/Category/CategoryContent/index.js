@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { uid } from "react-uid";
 import { connect } from "react-redux";
 import ButtonAdd from "./ButtonAdd";
+import HomeButton from "./HomeButton";
 import ideaService from "services/ideaService";
 import commentService from "services/commentService";
 import "./CategoryContent.scss";
@@ -80,6 +81,7 @@ class CategoryContent extends React.Component {
 
     return (
       <div className="category-content">
+        <HomeButton onClick={this.props.onReturn} />
         <div className="ideas-list">
           {ideas.map((idea) => (
             <IdeaContainer

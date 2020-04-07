@@ -11,7 +11,7 @@ const StickyNoteInput = ({ onSubmit }) => {
   return (
     <div
       className="sticky-note__input"
-      onKeyDown={e => e.keyCode === 13 && handleSubmit()}
+      onKeyDown={(e) => e.keyCode === 13 && handleSubmit()}
     >
       <div className="btn-arrow" onClick={handleSubmit}>
         <div className="arrow__wrapper">
@@ -21,7 +21,7 @@ const StickyNoteInput = ({ onSubmit }) => {
       <input
         placeholder="dodaj kategorie"
         value={value}
-        onChange={e => setValue(e.target.value)}
+        onChange={(e) => setValue(e.target.value)}
         className="field-category"
       />
     </div>

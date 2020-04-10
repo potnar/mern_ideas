@@ -77,15 +77,30 @@ function put(req, res) {
 function del(req, res) {
   let errors = {};
 
-  const { id } = req.body;
+  const { id, idea } = req.query;
+  console.log('ID = ', id)
+  console.log('IDEA = ', idea)
 
   Comment.deleteOne({ _id: id }, (err, result) => {
     if (err) {
       console.error(err);
       errors.comment = "couldn't delete comment";
       res.status(404).json({ errors });
+    } else {
+      Idea.findByIdAndUpdate(
+        idea,
+        {$pull: { comments: id }},
+        (ideaError, idea) => {
+          if (ideaError) {
+            console.error(ideaError);
+            errors.idea = ideaError;
+            res.status(404).json({ errors });
+          } else {
+            res.json(result);
+          }
+        }
+      )
     }
-    res.json(result);
   });
 }
 

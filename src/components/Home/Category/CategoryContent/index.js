@@ -53,19 +53,6 @@ class CategoryContent extends React.Component {
     });
   };
 
-  handleDeleteComment = (id, author) => {
-    const { token } = this.props;
-    ideaService
-      .del({
-        author,
-        id,
-        token,
-      })
-      .then(() => {
-        this.getIdeasList(this.props.category._id);
-      });
-  };
-
   handleDeleteIdea = (id) => {
     ideaService
       .del({
@@ -81,10 +68,23 @@ class CategoryContent extends React.Component {
   handleSubmitComment = (ideaId, content = "ERROREK") => {
     const { author } = this.props;
     commentService
-      .put({ content, author, token: this.props.token, idea: ideaId })
-      .then((result) => {
-        this.getIdeasList(this.props.category._id);
-      });
+    .put({ content, author, token: this.props.token, idea: ideaId })
+    .then((result) => {
+      this.getIdeasList(this.props.category._id);
+    });
+  };
+
+  handleDeleteComment = ({ id, idea }) => {
+    const { token } = this.props;
+    commentService
+    .del({
+      id,
+      token,
+      idea
+    })
+    .then(() => {
+      this.getIdeasList(this.props.category._id);
+    });
   };
 
   // getRefId = id => `${id} comment`;

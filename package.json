@@ -30,6 +30,7 @@
     "uid": "0.0.2"
   },
   "scripts": {
+    "dev": "nodemon server.js",
     "serve": "node server.js",
     "start": "(set PORT=3000) && (react-scripts start)",
     "build": "react-scripts build",

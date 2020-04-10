@@ -53,6 +53,19 @@ class CategoryContent extends React.Component {
     });
   };
 
+  handleDeleteComment = (id, author) => {
+    const { token } = this.props;
+    ideaService
+      .del({
+        author,
+        id,
+        token,
+      })
+      .then(() => {
+        this.getIdeasList(this.props.category._id);
+      });
+  };
+
   handleDeleteIdea = (id) => {
     ideaService
       .del({
@@ -92,6 +105,7 @@ class CategoryContent extends React.Component {
               onCloseIdea={this.handleCloseIdea}
               onOpenIdea={this.handleOpenIdea}
               isCommentsVisible={this.state.openIdeas.includes(idea._id)}
+              onDeleteComment={this.handleDeleteComment}
             />
           ))}
         </div>

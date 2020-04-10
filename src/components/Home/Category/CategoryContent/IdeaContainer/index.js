@@ -79,6 +79,7 @@ const IdeaContainer = (props) => {
             ref={commentContainerRef}
             onComment={props.onComment}
             height={contentHeight}
+            onDelete={props.onDeleteComment}
           />
         </div>
       </ul>

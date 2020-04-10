@@ -4,9 +4,9 @@ const get = ({ author, token }) => {
   return axios
     .get("ideas", {
       params: { author },
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` },
     })
-    .then(res => res.data);
+    .then((res) => res.data);
 };
 
 const put = ({ content, author, token, idea }) => {
@@ -19,18 +19,18 @@ const put = ({ content, author, token, idea }) => {
   );
 };
 
-const del = ({ id, author, token }) => {
+const del = ({ id, token }) => {
   return axios
     .delete(
       //nazwa endpointu
       "comments",
       //header.body
       {
-        params: { author, id },
-        headers: { Authorization: `Bearer ${token}` }
+        params: { id },
+        headers: { Authorization: `Bearer ${token}` },
       }
     )
-    .then(res => res.data);
+    .then((res) => res.data);
 };
 
 export default { put, get, del };

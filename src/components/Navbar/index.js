@@ -9,10 +9,11 @@ import { withRouter } from "react-router-dom";
 const Navbar = ({ user, location }) => {
   return (
     <nav className="nav">
-      <div className="menu-item">{(user && user.username) || ""}</div>
       <div className="menu-item">
         <img className="nav__logo" src={logo} alt="logo" />
       </div>
+      <div className="menu-item">{(user && user.username) || ""}</div>
+
       <div className="menu-item">
         {user && user.token ? (
           <ButtonLogout />
@@ -26,7 +27,7 @@ const Navbar = ({ user, location }) => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return { user: state.userReducer.user };
 };
 

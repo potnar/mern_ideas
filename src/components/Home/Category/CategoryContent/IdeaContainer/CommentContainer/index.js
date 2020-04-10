@@ -11,7 +11,7 @@ const CommentContainer = React.forwardRef((props, ref) => {
   if (!comments) {
     return null;
   }
-  console.log(props);
+
   return (
     <ul ref={ref} style={{ height: props.height || "auto" }}>
       {comments.map((comment) => (
@@ -24,7 +24,7 @@ const CommentContainer = React.forwardRef((props, ref) => {
               size="1.6rem"
               className="del-button"
               onClick={() => {
-                props.onDelete(comment._id);
+                props.onDelete({ id: comment._id, idea: idea._id });
               }}
             />
           </IconContext.Provider>

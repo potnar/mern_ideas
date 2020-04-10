@@ -19,14 +19,14 @@ const put = ({ content, author, token, idea }) => {
   );
 };
 
-const del = ({ id, token }) => {
+const del = ({ id, token, idea }) => {
   return axios
     .delete(
       //nazwa endpointu
       "comments",
       //header.body
       {
-        params: { id },
+        params: { id, idea },
         headers: { Authorization: `Bearer ${token}` },
       }
     )

@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { render } from "react-dom";
 import CommentContainer from "./CommentContainer";
+import ReactStars from "react-rating-stars-component";
 import { FiMessageSquare } from "react-icons/fi";
 import { MdDeleteForever } from "react-icons/md";
 import { FaRegLightbulb } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
 import { IconContext } from "react-icons";
+import "./IdeaContainer.scss";
 import PropTypes from "prop-types";
 
 const IdeaContainer = (props) => {
@@ -37,10 +40,20 @@ const IdeaContainer = (props) => {
     setContentHeight(`${Math.ceil(height)}px`);
   }, [commentContainerRef]);
 
+  const ratingChanged = (newRating) => {
+    console.log(newRating);
+  };
+
   return (
     <div className="idea-section">
       <ul>
         <div className="idea-row">
+          <ReactStars
+            count={5}
+            onChange={ratingChanged}
+            size={24}
+            color2={"#ffd700"}
+          />
           <IconContext.Provider value={{ className: "bulb" }}>
             <FaRegLightbulb size="1.6rem" />
           </IconContext.Provider>

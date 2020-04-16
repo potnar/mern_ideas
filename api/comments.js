@@ -57,7 +57,7 @@ function put(req, res) {
     Idea.findByIdAndUpdate(
       idea,
       { $addToSet: { comments: comment._id } },
-      userError => {
+      (userError) => {
         if (userError) {
           console.error(userError);
           errors.idea = "couldn't update idea comments";
@@ -78,8 +78,6 @@ function del(req, res) {
   let errors = {};
 
   const { id, idea } = req.query;
-  console.log('ID = ', id)
-  console.log('IDEA = ', idea)
 
   Comment.deleteOne({ _id: id }, (err, result) => {
     if (err) {
@@ -89,7 +87,7 @@ function del(req, res) {
     } else {
       Idea.findByIdAndUpdate(
         idea,
-        {$pull: { comments: id }},
+        { $pull: { comments: id } },
         (ideaError, idea) => {
           if (ideaError) {
             console.error(ideaError);
@@ -99,7 +97,7 @@ function del(req, res) {
             res.json(result);
           }
         }
-      )
+      );
     }
   });
 }

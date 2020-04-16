@@ -4,10 +4,11 @@ const ideaSchema = new mongoose.Schema(
   {
     category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
     name: { type: String, required: true },
-    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }]
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+    ratings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Rating" }],
   },
   {
-    strict: true
+    strict: true,
   }
 );
 

@@ -5,20 +5,21 @@ const { PORT } = process.env;
 // importowanie biblioteki express w stylu es5
 const express = require("express");
 const auth = require("./auth");
-const session = require("express-session");
+//const session = require("express-session");
 const path = require("path");
 require("./config/passport");
 
 const bodyParser = require("body-parser");
 //importowanie cors. uprzednio należy zainstalować cors npm i --save cors. Jest po to aby wysyłać zapytania do obcych domen
 const cors = require("cors");
-const passport = require("passport");
+//const passport = require("passport");
 
 const users = require("./api/users");
 const authApi = require("./api/auth");
 const categories = require("./api/categories");
 const ideas = require("./api/ideas");
 const comments = require("./api/comments");
+const ratings = require("./api/ratings");
 
 //inicjujemy serwer
 const app = express();
@@ -76,13 +77,13 @@ mongoose.connect("mongodb://localhost/ideas", {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useFindAndModify: false
+  useFindAndModify: false,
 });
 
 /*  */
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", function() {
+db.once("open", function () {
   console.log("connected to the database");
 });
 
@@ -115,6 +116,9 @@ apiRouter.delete("/comments", auth.required, comments.del);
 apiRouter.get("/users", auth.required, users.get);
 apiRouter.put("/users", auth.required, users.put);
 apiRouter.delete("/users", auth.required, users.del);
+
+apiRouter.get("/ratings", auth.required, ratings.get);
+apiRouter.post("/ratings", auth.required, ratings.post);
 // od ścieżki apiRouter serwer ma rozpoznawać endpointy tak jak są zdefiniowane w routerze
 
 app.use(loggerMiddleware);

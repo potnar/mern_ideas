@@ -5,6 +5,7 @@ import ButtonAdd from "./ButtonAdd";
 import HomeButton from "./HomeButton";
 import ideaService from "services/ideaService";
 import commentService from "services/commentService";
+import ratingService from "services/ratingService";
 import "./CategoryContent.scss";
 import IdeaContainer from "./IdeaContainer";
 
@@ -35,6 +36,15 @@ class CategoryContent extends React.Component {
         this.setState({ ideas });
         return ideas;
       });
+  };
+
+  getRatingList = (ideaId) => {
+    ratingService.get({ token: this.props.token, ideaId }).then((ratings) => {
+      // ideas.forEach(idea => {
+      //   this[this.getRefId(idea._id)] = React.createRef();
+      // });
+      this.setState({ ratings });
+    });
   };
 
   handleCloseIdea = (id) => {
@@ -68,23 +78,23 @@ class CategoryContent extends React.Component {
   handleSubmitComment = (ideaId, content = "ERROREK") => {
     const { author } = this.props;
     commentService
-    .put({ content, author, token: this.props.token, idea: ideaId })
-    .then((result) => {
-      this.getIdeasList(this.props.category._id);
-    });
+      .put({ content, author, token: this.props.token, idea: ideaId })
+      .then((result) => {
+        this.getIdeasList(this.props.category._id);
+      });
   };
 
   handleDeleteComment = ({ id, idea }) => {
     const { token } = this.props;
     commentService
-    .del({
-      id,
-      token,
-      idea
-    })
-    .then(() => {
-      this.getIdeasList(this.props.category._id);
-    });
+      .del({
+        id,
+        token,
+        idea,
+      })
+      .then(() => {
+        this.getIdeasList(this.props.category._id);
+      });
   };
 
   // getRefId = id => `${id} comment`;
@@ -100,6 +110,7 @@ class CategoryContent extends React.Component {
             <IdeaContainer
               idea={idea}
               key={uid(idea)}
+              onRating={(rating) => console.log(rating)}
               onComment={this.handleSubmitComment}
               onDelete={this.handleDeleteIdea}
               onCloseIdea={this.handleCloseIdea}

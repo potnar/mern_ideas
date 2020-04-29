@@ -24,25 +24,38 @@ function get(req, res) {
   if (query.id) {
     Idea.findById(query.id)
       .populate("comments")
+      .populate({ path: "ratings", select: "value" })
       .exec((err, idea) => {
         if (err) {
           console.error(err);
           errors.idea = "couldn't get ideas list";
           res.status(404).json({ errors });
+        } else {
+          res.json(idea);
         }
-        res.json(idea);
       });
     // Idea.findById(query.id).then(res => ...).catch(err => ...);
   } else {
     Idea.find({ category })
       .populate("comments")
-      .exec((err, idea) => {
+      .populate({ path: "ratings", select: "value" })
+      .exec((err, ideas) => {
         if (err) {
           console.error(err);
           errors.idea = "couldn't get ideas list";
           res.status(404).json({ errors });
+        } else {
+          const ideasWithRatings = ideas.map((idea) => {
+            return {
+              ...idea._doc,
+              avgRating:
+                idea.ratings.reduce((a, b) => a.value + b.value) /
+                idea.ratings.length,
+            };
+          });
+          console.log(ideas);
+          res.json(ideasWithRatings);
         }
-        res.json(idea);
       });
   }
 }

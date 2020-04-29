@@ -41,7 +41,8 @@ const IdeaContainer = (props) => {
   }, [commentContainerRef]);
 
   const ratingChanged = (newRating) => {
-    console.log(newRating);
+    props.onRating(newRating);
+    // console.log(newRating);
   };
 
   return (

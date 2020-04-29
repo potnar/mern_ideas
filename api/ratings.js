@@ -26,8 +26,6 @@ function post(req, res) {
     value,
   });
 
-  console.log(update);
-
   Rating.update(
     { _id: id || new mongoose.mongo.ObjectID() },
     update,
@@ -39,19 +37,18 @@ function post(req, res) {
         res.status(500).json({ errors });
       } else {
         // const ideaUpdate = { $insertOne: { ratings: result._id } };
-        Idea.findByIdAndUpdate(
-          ideaId,
-          { $push: { ratings: result._id } },
-          (ideaError) => {
-            if (ideaError) {
-              console.error(ideaError);
-              errors.rating = ideaError.message;
-              res.status(404).json({ errors });
-            } else {
-              res.json(result);
-            }
+        const ideaUpdate = Array.isArray(result.upserted)
+          ? { $push: { ratings: result.upserted[0]._id } }
+          : {};
+        Idea.findByIdAndUpdate(ideaId, ideaUpdate, (ideaError) => {
+          if (ideaError) {
+            console.error(ideaError);
+            errors.rating = ideaError.message;
+            res.status(404).json({ errors });
+          } else {
+            res.json(result);
           }
-        );
+        });
       }
     }
   );

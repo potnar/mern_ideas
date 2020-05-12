@@ -47,8 +47,8 @@ class StickyNoteList extends React.Component {
   getNoteList = (userId, token) => {
     userService
       .getAllUserIDs({ token: token || this.props.user.token })
-      .then(result => {
-        const loggedUser = result.filter(user => user._id === userId)[0];
+      .then((result) => {
+        const loggedUser = result.filter((user) => user._id === userId)[0];
         const noteList = [...result];
 
         result.forEach((user, index) => {
@@ -57,21 +57,21 @@ class StickyNoteList extends React.Component {
           }
         });
 
-        noteList.unshift(loggedUser);
+        loggedUser && noteList.unshift(loggedUser);
         this.setState({ noteList });
       });
   };
 
-  handleAddCategory = category => {
+  handleAddCategory = (category) => {
     const userId = this.props.user._id;
     //funkcja dodająca kategorię
     categoryService
       .put({ category, userId, token: this.props.user.token })
-      .then(res => this.getNoteList(userId))
-      .catch(err => {
+      .then((res) => this.getNoteList(userId))
+      .catch((err) => {
         this.props.openModal({
           title: "ERROR",
-          content: "couldn't add category"
+          content: "couldn't add category",
         });
         console.error(err);
       });
@@ -97,16 +97,16 @@ class StickyNoteList extends React.Component {
                 note={note}
                 onCategoryChange={onCategoryChange}
                 onAddCategory={this.handleAddCategory}
-                isLoggedUser={isLoggedUser} />
+                isLoggedUser={isLoggedUser}
+              />
             );
-          })
-        }
+          })}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return { user: state.userReducer.user };
 };
 

@@ -36,12 +36,17 @@ const IdeaContainer = (props) => {
   };
 
   React.useEffect(() => {
-    const { height } = commentContainerRef.current.getBoundingClientRect();
-    setContentHeight(`${Math.ceil(height)}px`);
+    if (commentContainerRef.current) {
+      const { height } = commentContainerRef.current.getBoundingClientRect();
+      setContentHeight(`${Math.ceil(height)}px`);
+    }
   }, [commentContainerRef]);
-
   const ratingChanged = (newRating) => {
-    props.onRating(newRating);
+    props.onRating({
+      value: newRating,
+      author: props.author,
+      idea: props.idea._id,
+    });
     // console.log(newRating);
   };
 
@@ -52,6 +57,7 @@ const IdeaContainer = (props) => {
           <ReactStars
             count={5}
             onChange={ratingChanged}
+            value={props.idea.avgRating}
             size={24}
             color2={"#ffd700"}
           />

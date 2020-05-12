@@ -38,15 +38,6 @@ class CategoryContent extends React.Component {
       });
   };
 
-  getRatingList = (ideaId) => {
-    ratingService.get({ token: this.props.token, ideaId }).then((ratings) => {
-      // ideas.forEach(idea => {
-      //   this[this.getRefId(idea._id)] = React.createRef();
-      // });
-      this.setState({ ratings });
-    });
-  };
-
   handleCloseIdea = (id) => {
     this.setState((prevState) => {
       const openIdeas = [...prevState.openIdeas];
@@ -99,6 +90,18 @@ class CategoryContent extends React.Component {
 
   // getRefId = id => `${id} comment`;
 
+  handleRating = ({ value, author, idea }) => {
+    const { token } = this.props;
+    ratingService
+      .post({
+        token,
+        value,
+        author,
+        idea,
+      })
+      .then(() => this.getIdeasList(this.props.category._id));
+  };
+
   render() {
     const { ideas } = this.state;
 
@@ -108,9 +111,10 @@ class CategoryContent extends React.Component {
         <div className="ideas-list">
           {ideas.map((idea) => (
             <IdeaContainer
+              author={this.props.author}
               idea={idea}
               key={uid(idea)}
-              onRating={(rating) => console.log(rating)}
+              onRating={this.handleRating}
               onComment={this.handleSubmitComment}
               onDelete={this.handleDeleteIdea}
               onCloseIdea={this.handleCloseIdea}

@@ -40,15 +40,21 @@ function post(req, res) {
         const ideaUpdate = Array.isArray(result.upserted)
           ? { $push: { ratings: result.upserted[0]._id } }
           : {};
-        Idea.findByIdAndUpdate(ideaId, ideaUpdate, (ideaError) => {
-          if (ideaError) {
-            console.error(ideaError);
-            errors.rating = ideaError.message;
-            res.status(404).json({ errors });
-          } else {
-            res.json(result);
+
+        Idea.findByIdAndUpdate(
+          ideaId,
+          ideaUpdate,
+          { new: true },
+          (ideaError, updatedIdea) => {
+            if (ideaError) {
+              console.error(ideaError);
+              errors.rating = ideaError.message;
+              res.status(404).json({ errors });
+            } else {
+              res.json(updatedIdea);
+            }
           }
-        });
+        );
       }
     }
   );

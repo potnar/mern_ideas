@@ -2,7 +2,7 @@ import axios from "axios";
 
 const get = ({ author, token }) => {
   return axios
-    .get("ratings", {
+    .get("ideas", {
       params: { author },
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -10,11 +10,11 @@ const get = ({ author, token }) => {
 };
 
 const post = ({ value, author, token, idea }) => {
-  return axios.put(
+  return axios.post(
     //nazwa endpointu
     "ratings",
     //header.body
-    { value, author, idea },
+    { value, author, ideaId: idea },
     { headers: { Authorization: `Bearer ${token}` } }
   );
 };

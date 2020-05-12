@@ -49,11 +49,20 @@ function get(req, res) {
             return {
               ...idea._doc,
               avgRating:
-                idea.ratings.reduce((a, b) => a.value + b.value) /
-                idea.ratings.length,
+                idea.ratings.length > 0
+                  ? Math.round(
+                      (idea.ratings.reduce((a, b) => {
+                        let first = a.value || a;
+                        return first + b.value;
+                      }, 0) /
+                        idea.ratings.length) *
+                        2
+                    ) / 2
+                  : 0,
+              ratings: idea.ratings,
             };
           });
-          console.log(ideas);
+
           res.json(ideasWithRatings);
         }
       });

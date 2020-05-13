@@ -4,9 +4,9 @@ const get = ({ category, token }) => {
   return axios
     .get("ideas", {
       params: { category },
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` },
     })
-    .then(res => res.data);
+    .then((res) => res.data);
 };
 
 const put = ({ idea, categoryId, token }) => {
@@ -30,10 +30,10 @@ const del = ({ id, category, token }) => {
       {
         params: { category, id },
         //precyzowanie header authorization aby wyciagnac z headera token po stronie serwera
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       }
     )
-    .then(res => res.data);
+    .then((res) => res.data);
 };
 
 export default { put, get, del };

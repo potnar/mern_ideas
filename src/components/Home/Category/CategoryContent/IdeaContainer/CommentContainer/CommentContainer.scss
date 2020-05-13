@@ -1,7 +1,39 @@
-.comment {
-  margin-left: 10px;
-  color: wheat;
+.comments-container {
+  max-width: 360px;
+}
+.box-comment-container {
+  display: flex;
+
+  max-width: 360px;
   border-bottom: 2px solid grey;
+  margin: 0 0 10px 10px;
+  .comment {
+    color: wheat;
+    max-width: 100%;
+    display: block;
+    justify-content: flex-start;
+    flex-grow: 3;
+    flex-shrink: 3;
+    flex-basis: 80%;
+    .comment-content {
+      width: 100%;
+      height: auto;
+      overflow-wrap: anywhere;
+    }
+    .del-button {
+      flex-grow: 1;
+      flex-shrink: 1;
+      flex-basis: 20%;
+      justify-content: flex-end;
+    }
+  }
+}
+.comment-box {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
   margin-bottom: 10px;
 }
 

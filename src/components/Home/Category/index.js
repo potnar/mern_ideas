@@ -15,6 +15,7 @@ class Category extends React.Component {
           onCategoryChange={onCategoryChange}
         />
         <CategoryContent category={category} onReturn={onReturn} />
+        <div className="spacer"></div>
       </div>
     );
   }

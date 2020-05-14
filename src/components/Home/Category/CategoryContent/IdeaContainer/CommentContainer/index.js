@@ -21,6 +21,29 @@ const CommentContainer = React.forwardRef((props, ref) => {
     >
       <li>
         {/* <button onClick={() => props.onComment(idea._id, text)}>dodaj</button> */}
+      </li>
+      <ScrollBar className="comment-scrollbar">
+        {comments.map((comment) => (
+          <li key={uid(comment)}>
+            <div className="box-comment-container">
+              <div className="comment" key={uid(comment)}>
+                <div className="comment-content">{comment.content}</div>
+              </div>
+              <div className="del-button">
+                <IconContext.Provider value={{ className: "icons" }}>
+                  <MdDeleteForever
+                    size="1.6rem"
+                    onClick={() => {
+                      props.onDelete({ id: comment._id, idea: idea._id });
+                    }}
+                  />
+                </IconContext.Provider>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ScrollBar>
+      <li>
         <textarea
           placeholder="Add comment..."
           onChange={(e) => setText(e.target.value)}
@@ -28,25 +51,6 @@ const CommentContainer = React.forwardRef((props, ref) => {
           className="comment-box"
         ></textarea>
       </li>
-      {comments.map((comment) => (
-        <li key={uid(comment)}>
-          <div className="box-comment-container">
-            <div className="comment" key={uid(comment)}>
-              <div className="comment-content">{comment.content}</div>
-            </div>
-            <div className="del-button">
-              <IconContext.Provider value={{ className: "icons" }}>
-                <MdDeleteForever
-                  size="1.6rem"
-                  onClick={() => {
-                    props.onDelete({ id: comment._id, idea: idea._id });
-                  }}
-                />
-              </IconContext.Provider>
-            </div>
-          </div>
-        </li>
-      ))}
     </ul>
   );
 });

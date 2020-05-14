@@ -1,10 +1,15 @@
 import React from "react";
-import { Scrollbars } from "react-custom-scrollbars";
+import Scrollbars from "react-perfect-scrollbar";
+import "react-perfect-scrollbar/dist/css/styles.css";
 
 class Scrollbar extends React.Component {
   render() {
     return (
-      <Scrollbars className="custom-scrollbar">
+      <Scrollbars
+        className={`custom-scrollbar ${
+          this.props.className ? this.props.className : ""
+        }`}
+      >
         {this.props.children}
       </Scrollbars>
     );

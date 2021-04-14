@@ -8,7 +8,6 @@ import { FaRegLightbulb } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
 import { IconContext } from "react-icons";
 import "./IdeaContainer.scss";
-import PropTypes from "prop-types";
 
 const IdeaContainer = (props) => {
   const { idea } = props;
@@ -88,9 +87,8 @@ const IdeaContainer = (props) => {
           </IconContext.Provider>
         </div>
         <div
-          className={`comment-container__wrapper ${
-            !props.isCommentsVisible ? "--hidden" : ""
-          }`}
+          className={`comment-container__wrapper ${!props.isCommentsVisible ? "--hidden" : ""
+            }`}
           style={{ "--contentHeight": contentHeight }}
         >
           <CommentContainer

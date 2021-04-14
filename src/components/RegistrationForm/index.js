@@ -4,6 +4,7 @@ import "./RegistrationForm.scss";
 import authService from "services/authService";
 import { withRouter } from "react-router";
 import userActions from "store/actions/userActions";
+import { openModal } from "store/actions/modalActions";
 
 /*
 RegisterForm - musisz w dowolny sposób wyrenderować formularz rejestracji, który onSubmit będzie wykonywał 
@@ -15,42 +16,44 @@ authService.register({ username, password, name, surname })
 class RegistrationForm extends Component {
   state = { username: "", password: "", name: "", surname: "" };
 
-  //odpala się gdy component zamontuje się na DOM'ie (lifeCycle method)
   componentDidMount() {
     localStorage.removeItem("user");
     this.props.logout();
   }
 
-  handleUsernameChange = e => {
+  handleUsernameChange = (e) => {
     this.setState({ username: e.target.value });
   };
 
-  handlePasswordChange = e => {
+  handlePasswordChange = (e) => {
     this.setState({ password: e.target.value });
   };
-  handleNameChange = e => {
+  handleNameChange = (e) => {
     this.setState({ name: e.target.value });
   };
 
-  handleSurnameChange = e => {
+  handleSurnameChange = (e) => {
     this.setState({ surname: e.target.value });
   };
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     authService
       .register({
         username: this.state.username,
         password: this.state.password,
         name: this.state.name,
-        surname: this.state.surname
+        surname: this.state.surname,
       })
-      .then(res => {
+      .then((res) => {
         console.log(res);
-
         this.props.history.push("/login");
       })
-      .catch(error => {
+      .catch((error) => {
+        this.props.openModal({
+          title: "ERROR",
+          content: "couldn't register",
+        });
         console.error(error);
       });
   };
@@ -61,7 +64,7 @@ class RegistrationForm extends Component {
         <form
           className="registration-form"
           onSubmit={this.handleSubmit}
-          onKeyDown={e => e.keyCode === 13 && this.handleSubmit(e)}
+          onKeyDown={(e) => e.keyCode === 13 && this.handleSubmit(e)}
         >
           <div className="input-boxes">
             <h1>Register</h1>
@@ -100,6 +103,6 @@ class RegistrationForm extends Component {
   }
 }
 
-const mapDispatchToProps = { logout: userActions.logout };
+const mapDispatchToProps = { logout: userActions.logout, openModal };
 
 export default connect(null, mapDispatchToProps)(withRouter(RegistrationForm));

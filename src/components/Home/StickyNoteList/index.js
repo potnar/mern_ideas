@@ -33,12 +33,10 @@ class StickyNoteList extends React.Component {
   state = { noteList: [] };
 
   componentDidMount() {
-    // console.log("componentDidMount", this.props.user);
     this.props.user && this.getNoteList(this.props.user._id);
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log("componentWillReceiveProps", nextProps.user);
     if (nextProps.user && nextProps.user !== this.props.user) {
       this.getNoteList(nextProps.user._id, nextProps.user.token);
     }

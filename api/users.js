@@ -8,6 +8,7 @@ function get(req, res) {
       .exec((err, user) => {
         if (err) {
           errors.user = err;
+          console.log(errors.user)
           res.status(404).json({ errors });
         }
         res.json(user);

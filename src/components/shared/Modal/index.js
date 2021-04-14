@@ -70,7 +70,6 @@ const mapDispatchToProps = {
   onOpen: modalActions.openModal
 };
 
-//połączyć redux z componentem
 export default connect(mapStateToProps, mapDispatchToProps)(WrappedModal);
 
 /* <Modal

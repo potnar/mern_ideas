@@ -2,18 +2,15 @@ import React from "react";
 import Scrollbars from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 
-class Scrollbar extends React.Component {
-  render() {
-    return (
-      <Scrollbars
-        className={`custom-scrollbar ${
-          this.props.className ? this.props.className : ""
-        }`}
-      >
-        {this.props.children}
-      </Scrollbars>
-    );
-  }
-}
+const Scrollbar = React.forwardRef((props, ref) => {
+  return (
+    <Scrollbars
+      className={`custom-scrollbar ${props.className ? props.className : ""}`}
+      ref={ref}
+    >
+      {props.children}
+    </Scrollbars>
+  );
+});
 
 export default Scrollbar;

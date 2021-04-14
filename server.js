@@ -1,8 +1,7 @@
-//zmienna środowiskowa to zmienna, którą możesz ustawić przed uruchomieniem programu. jest przechowywana w powłoce systemowej
+
 const dotenv = require("dotenv");
 dotenv.config();
 const { PORT } = process.env;
-// importowanie biblioteki express w stylu es5
 const express = require("express");
 const auth = require("./auth");
 //const session = require("express-session");
@@ -10,9 +9,7 @@ const path = require("path");
 require("./config/passport");
 
 const bodyParser = require("body-parser");
-//importowanie cors. uprzednio należy zainstalować cors npm i --save cors. Jest po to aby wysyłać zapytania do obcych domen
 const cors = require("cors");
-//const passport = require("passport");
 
 const users = require("./api/users");
 const authApi = require("./api/auth");

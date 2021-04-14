@@ -1,17 +1,20 @@
 .comments-container {
-  max-width: 370px;
-  max-height: 400px;
+  // width: 390px;
+  padding: 0 0 0 10px;
 }
 .comment-scrollbar {
   overflow-x: hidden;
-  max-height: 200px;
+  max-height: 150px;
   width: 360px;
+}
+.comments-list {
+  max-height: 150px;
+  padding: 10px 0;
 }
 .box-comment-container {
   display: flex;
-
   border-bottom: 2px solid grey;
-  margin: 0 0 10px 10px;
+  margin: 0 15px 10px 10px;
 
   .comment {
     color: wheat;

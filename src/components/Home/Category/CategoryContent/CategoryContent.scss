@@ -1,8 +1,8 @@
 @import "../../../../shared/styles/colors";
 .comment-container__wrapper {
-  overflow: hidden;
-  max-height: var(--contentHeight);
+  height: var(--contentHeight);
   transition: max-height 0.2s;
+  margin: 20px 0;
   &.--hidden {
     max-height: 0px;
     ul {

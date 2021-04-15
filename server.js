@@ -1,7 +1,7 @@
 
 const dotenv = require("dotenv");
 dotenv.config();
-const { PORT } = process.env;
+const { PORT, DATABASE_URL } = process.env;
 const express = require("express");
 const auth = require("./auth");
 //const session = require("express-session");
@@ -70,7 +70,7 @@ app.use(express.static(path.join(__dirname, "build")));
 
 //database section
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/ideas", {
+mongoose.connect(DATABASE_URL, {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,

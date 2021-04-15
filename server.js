@@ -46,7 +46,7 @@ const loggerMiddleware = (req, res, next) => {
   next();
 };
 app.use(loggerMiddleware);
-app.use(express.static(path.join(BUILD_PATH, "build")));
+app.use(express.static(path.join(BUILD_PATH)));
 
 // Express Session
 // app.use(
@@ -131,8 +131,8 @@ app.use("/api", apiRouter);
 // tzn. najpierw są rozwiązywane ścieżki opisane wcześniej, a dopiero na końcu ta tutaj
 // (czyli de facto wszystkie inne niż powyżej)
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(BUILD_PATH + "/build/index.html"));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(BUILD_PATH + "index.html"));
 });
 
 app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));

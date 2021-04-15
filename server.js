@@ -1,7 +1,7 @@
 
 const dotenv = require("dotenv");
 dotenv.config();
-const { PORT, DATABASE_URL } = process.env;
+const { PORT, DATABASE_URL, BUILD_PATH } = process.env;
 const express = require("express");
 const auth = require("./auth");
 //const session = require("express-session");
@@ -46,7 +46,7 @@ const loggerMiddleware = (req, res, next) => {
   next();
 };
 app.use(loggerMiddleware);
-app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(BUILD_PATH, "build")));
 
 // Express Session
 // app.use(
@@ -132,7 +132,7 @@ app.use("/api", apiRouter);
 // (czyli de facto wszystkie inne niż powyżej)
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/build/index.html"));
+  res.sendFile(path.join(BUILD_PATH + "/build/index.html"));
 });
 
 app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));

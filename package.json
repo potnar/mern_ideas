@@ -32,8 +32,8 @@
   },
   "scripts": {
     "dev": "nodemon server.js",
-    "serve": "node server.js",
-    "start": "(set PORT=3000) && (react-scripts start)",
+    "start": "node server.js",
+    "start-frontend": "(set PORT=3000) && (react-scripts start)",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
